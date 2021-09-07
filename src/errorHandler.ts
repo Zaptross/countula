@@ -21,7 +21,7 @@ export function getErrorHandler(send: (message: APIMessageContentResolvable) => 
                 text: message?.cleanContent
             }
         }
-        log(data as ErrorData)
         send(`<@${message ? message.author.id : process.env.ADMINISTRATOR_USER_ID}> I don't know how, but ya fucked it${message && message.author.id !== process.env.ADMINISTRATOR_USER_ID ? `. Tell <@${process.env.ADMINISTRATOR_USER_ID}> to fix his shit:` : ':'} ${data.code}`)
+        return log(data as ErrorData)
     }
 }

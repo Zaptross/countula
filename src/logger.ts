@@ -13,12 +13,14 @@ try {
 
 export function log(data: ErrorData | string | object) {
     if ((data as ErrorData).error) {
-        logError(data as ErrorData)
+        return logError(data as ErrorData)
     } else if (typeof data !== 'string') {
-        const loggable = `${new Date().toLocaleString()}: ${JSON.stringify(data)}`
+        const loggable = `${new Date().toLocaleString()}: ${JSON.stringify(data)}\n`
         fs.writeFile('./log/actions.log', loggable, { flag: 'a' })
+        console.log(loggable)
     } else if (typeof data === 'string') {
-        fs.writeFile('./log/actions.log', `${new Date().toLocaleString()} ${data}`, { flag: 'a' })
+        fs.writeFile('./log/actions.log', `${new Date().toLocaleString()} ${data}\n`, { flag: 'a' })
+        console.log(data)
     }
 }
 
@@ -27,4 +29,5 @@ function logError(data: ErrorData) {
     const loggable = `${new Date().toLocaleString()}: ${errorData.code} - ${JSON.stringify(errorData.error)}\n${errorData.stack}\n${JSON.stringify(errorData.message)}\n`
     console.log(loggable)
     fs.writeFile('./log/error.log', loggable, { flag: 'a' })
+    return loggable
 }

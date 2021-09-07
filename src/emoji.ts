@@ -1,5 +1,6 @@
 export const EMOJI = {
     CHECK: '✅',
     CROSS: '❌',
-    HIGH_SCORE: '👑'
-}
+    HIGH_SCORE: '👑',
+    SHEEP: '🐑',
+};
