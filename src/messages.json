@@ -19,6 +19,10 @@
         },
         {
             "reply": "you couldn't count the bats in the hall, even if only Lyuba were here."
+        },
+        {
+            "reply": "I'm going to take a big fat {username}.",
+            "message": "{username} is my new word for **shit** after this attempt."
         }
     ]
 }
