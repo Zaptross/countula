@@ -31,12 +31,14 @@
     "author": "Matthew Price",
     "license": "MIT",
     "devDependencies": {
-        "@types/number-to-words": "^1.2.1",
-        "@types/romans": "^1.0.0",
         "@types/luxon": "^2.0.0",
         "@types/node": "^16.4.13",
+        "@types/number-to-words": "^1.2.1",
+        "@types/romans": "^1.0.0",
         "@typescript-eslint/eslint-plugin": "^4.29.2",
         "@typescript-eslint/parser": "^4.29.2",
+        "commitizen": "^4.2.4",
+        "cz-conventional-changelog": "^3.2.0",
         "eslint": "^7.32.0",
         "eslint-config-airbnb-base": "^14.2.1",
         "eslint-plugin-import": "^2.24.0",
@@ -52,5 +54,10 @@
         "number-to-words": "^1.2.4",
         "romans": "^1.1.2",
         "ts-node-dev": "^1.1.8"
+    },
+    "config": {
+        "commitizen": {
+            "path": "./node_modules/cz-conventional-changelog"
+        }
     }
 }
