@@ -25,9 +25,9 @@ const successConditionRules = (
         randomNumber === 112358
             ? rulesByName.fibonacci({ state })
             : rulesByName.increment({
-                  num: weighted[randomNumber],
-                  state,
-              })
+                num: weighted[randomNumber],
+                state,
+            })
     );
 
     for (const rule of active) {

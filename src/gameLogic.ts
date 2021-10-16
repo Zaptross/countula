@@ -65,7 +65,7 @@ export function processMessage(
             message.author.id === process.env.DINGO_USER_ID &&
             message.cleanContent.toLowerCase().includes('bork')
         ) {
-            startingNumber = state.currentNumber + 1;
+            startingNumber = state.currentNumber + state.increment;
         }
         if (
             message.cleanContent.includes('skip a few') &&
@@ -84,14 +84,12 @@ export function processMessage(
         }
         if (message.cleanContent.includes('!state')) {
             reply(
-                `The current number is ${
-                    state.currentNumber
-                }, and the high score is ${
-                    state.highScore
-                } held by ${getNickname(
+                `The current number is ${state.currentNumber
+                }, and the high score is ${state.highScore
+                } ${state.lastHighScoreReact ? `held by ${getNickname(
                     guild,
                     state.lastHighScoreReact.message.author.id
-                )} ${EMOJI.HIGH_SCORE}`
+                )} ` : ''}${EMOJI.HIGH_SCORE}`
             );
         }
         if (message.cleanContent.includes('!list')) {
@@ -163,7 +161,7 @@ export function processMessage(
                                 : undefined,
                         longestStreak:
                             (player?.stats.longestStreak || 0) <
-                            state.currentStreak
+                                state.currentStreak
                                 ? state.currentStreak
                                 : undefined,
                     }
@@ -179,7 +177,7 @@ export function processMessage(
                     {
                         biggestMistake:
                             (player?.stats.biggestMistake || 0) <
-                            Math.abs(state.currentNumber)
+                                Math.abs(state.currentNumber)
                                 ? Math.abs(state.currentNumber)
                                 : undefined,
                         mistakes: (player?.stats.mistakes || 0) + 1,
@@ -190,9 +188,9 @@ export function processMessage(
 
                 const mistake =
                     messages.mistake[
-                        Math.round(
-                            Math.random() * (messages.mistake.length - 1)
-                        )
+                    Math.round(
+                        Math.random() * (messages.mistake.length - 1)
+                    )
                     ];
 
                 if (mistake.reply) {
