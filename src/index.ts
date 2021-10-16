@@ -123,7 +123,7 @@ function getExitHandler(signal: string) {
 }
 
 function registerExitHandlers() {
-    const exitCases = ['SIGINT', 'SIGUSR1', 'SIGUSR2', 'SIGTERM', 'SIGKILL', 'SIGHUP'];
+    const exitCases = ['SIGINT', 'SIGUSR1', 'SIGUSR2', 'SIGTERM', 'SIGHUP'];
     for (const exitCode of exitCases) {
         process.on(exitCode, getExitHandler(exitCode));
     }
