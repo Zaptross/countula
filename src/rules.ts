@@ -12,7 +12,11 @@ const successConditionRules = (
         active.push(rulesByName.takeTurns({ state }));
     }
     if (Math.random() >= 0.85) {
-        active.push(rulesByName.romanNumerals({ state }));
+        if (Math.random() >= 0.7) {
+            active.push(rulesByName.romanNumerals({ state }));
+        } else {
+            active.push(rulesByName.jeopardy({ state }));
+        }
     }
 
     // Randomly pick an increment to count in
@@ -228,6 +232,21 @@ const rulesByName: Record<string, GetRule> = {
             }
         },
     }),
+    jeopardy: () => ({
+        name: "Jeopardy!",
+        loadName: "jeopardy",
+        loadType: "precondition",
+        description: "Give the next number in the form: 'What is `x` plus `y`?'",
+        check: ({ message }) => /^what is \d+ (?:plus|\+) \d+\?/i.test(message.cleanContent),
+        passAction: ({ state, message }) => {
+            const digits = message.cleanContent
+                .split(' ')
+                .filter(x => /\d+/.test(x))
+                .map(x => parseInt(x))
+
+            return { startingNumber: digits.reduce((a, b) => a + b) }
+        }
+    })
 };
 
 const rulesInPlay: Record<Rule['loadType'], Rule[]> = {
