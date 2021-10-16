@@ -90,7 +90,7 @@ client.once('ready', () => {
     getGuild();
     state.loadState(send);
 
-    send("Ah-hah-hah! It's time again for counting!");
+    send(`Ah-hah-hah! It's time again for counting!${process.argv.slice(2).includes('vscode') ? ' \n...Why is there wires in my brain?' : ''}`);
 });
 
 client.login(process.env.DISCORD_BOT_TOKEN);
@@ -123,7 +123,7 @@ function getExitHandler(signal: string) {
 }
 
 function registerExitHandlers() {
-    const exitCases = ['SIGINT', 'SIGUSR1', 'SIGUSR2', 'SIGTERM'];
+    const exitCases = ['SIGINT', 'SIGUSR1', 'SIGUSR2', 'SIGTERM', 'SIGKILL', 'SIGHUP'];
     for (const exitCode of exitCases) {
         process.on(exitCode, getExitHandler(exitCode));
     }
