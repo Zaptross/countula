@@ -150,10 +150,8 @@ export default class GameState {
             JSON.stringify(collectedState)
         );
         log(
-            `Saved Game State - Current: ${this._currentNumber}, HighScore: ${
-                this._highScore
-            }, Players: ${
-                Object.keys(this._players).length
+            `Saved Game State - Current: ${this._currentNumber}, HighScore: ${this._highScore
+            }, Players: ${Object.keys(this._players).length
             }, Rules: ${collectedState.rules.join(', ')}`
         );
 
@@ -194,26 +192,24 @@ export default class GameState {
             const lastHighScoreMessage =
                 loadedState.last.highScoreReact.message || true
                     ? await getMessageById(
-                          loadedState.last.highScoreReact.message ||
-                              '878525366661152788'
-                      )
+                        loadedState.last.highScoreReact.message ||
+                        '878525356976529408'
+                    )
                     : undefined;
 
             this._lastHighScoreReact = lastHighScoreMessage
                 ? lastHighScoreMessage.reactions.cache.find(
-                      (x) => x.emoji.name === EMOJI.HIGH_SCORE
-                  )
+                    (x) => x.emoji.name === EMOJI.HIGH_SCORE
+                )
                 : undefined;
 
             log(
-                `Loaded Game State - Current: ${
-                    this._currentNumber
-                }, HighScore: ${this._highScore}, Players: ${
-                    Object.keys(this._players).length
+                `Loaded Game State - Current: ${this._currentNumber
+                }, HighScore: ${this._highScore}, Players: ${Object.keys(this._players).length
                 }, Rules: ${loadedState.rules.join(', ')}`
             );
         } catch (error) {
-            log(error);
+            log(error as Error);
         }
     }
 
