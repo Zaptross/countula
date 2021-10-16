@@ -8,17 +8,11 @@
             "name": "ts-node",
             "type": "node",
             "request": "launch",
-            "args": [
-                "${workspaceRoot}/src/index.ts"
-            ],
-            "runtimeArgs": [
-                "--nolazy",
-                "-r",
-                "ts-node/register"
-            ],
+            "args": ["${workspaceRoot}/src/index.ts", "vscode"],
+            "runtimeArgs": ["--nolazy", "-r", "ts-node/register"],
             "sourceMaps": true,
             "cwd": "${workspaceRoot}",
-            "protocol": "inspector",
+            "protocol": "inspector"
         }
     ]
 }
