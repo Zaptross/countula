@@ -20,7 +20,8 @@
         "build": "tsc -b",
         "watch": "npm-watch rebuild",
         "rebuild": "tsc -b && @powershell cp './src/*.json' ./dist/",
-        "start": "node ./dist/index.js"
+        "start": "node ./dist/index.js",
+        "release": "standard-version"
     },
     "keywords": [
         "discord",
@@ -31,33 +32,29 @@
     "author": "Matthew Price",
     "license": "MIT",
     "devDependencies": {
+        "@commitlint/cli": "^15.0.0",
+        "@commitlint/config-conventional": "^15.0.0",
         "@types/luxon": "^2.0.0",
         "@types/node": "^16.4.13",
         "@types/number-to-words": "^1.2.1",
         "@types/romans": "^1.0.0",
         "@typescript-eslint/eslint-plugin": "^4.29.2",
         "@typescript-eslint/parser": "^4.29.2",
-        "commitizen": "^4.2.4",
-        "cz-conventional-changelog": "^3.2.0",
         "eslint": "^7.32.0",
         "eslint-config-airbnb-base": "^14.2.1",
         "eslint-plugin-import": "^2.24.0",
+        "npm-watch": "^0.11.0",
         "prettier": "^2.3.2",
+        "standard-version": "^9.3.2",
         "ts-node": "^10.1.0",
+        "ts-node-dev": "^1.1.8",
         "typescript": "^4.3.5"
     },
     "dependencies": {
         "discord.js": "^12.5.3",
         "dotenv": "^10.0.0",
         "luxon": "^2.0.2",
-        "npm-watch": "^0.11.0",
         "number-to-words": "^1.2.4",
-        "romans": "^1.1.2",
-        "ts-node-dev": "^1.1.8"
-    },
-    "config": {
-        "commitizen": {
-            "path": "./node_modules/cz-conventional-changelog"
-        }
+        "romans": "^1.1.2"
     }
 }
