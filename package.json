@@ -29,6 +29,46 @@
         "counting",
         "game"
     ],
+    "commitlint": {
+        "rules": {
+            "type-enum": [
+                2,
+                "always",
+                [
+                    "feat",
+                    "fix",
+                    "docs",
+                    "style",
+                    "refactor",
+                    "test",
+                    "revert",
+                    "build",
+                    "chore",
+                    "perf"
+                ]
+            ],
+            "type-case": [
+                2,
+                "always",
+                "lower-case"
+            ],
+            "type-empty": [
+                2,
+                "never"
+            ],
+            "scope-case": [
+                2,
+                "always",
+                "lower-case"
+            ],
+            "scope-min-length": [
+                1,
+                "always",
+                2
+            ]
+        },
+        "parserPreset": {}
+    },
     "author": "Matthew Price",
     "license": "MIT",
     "devDependencies": {
@@ -43,6 +83,7 @@
         "eslint": "^7.32.0",
         "eslint-config-airbnb-base": "^14.2.1",
         "eslint-plugin-import": "^2.24.0",
+        "husky": "^7.0.4",
         "npm-watch": "^0.11.0",
         "prettier": "^2.3.2",
         "standard-version": "^9.3.2",
