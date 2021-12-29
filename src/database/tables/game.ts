@@ -11,6 +11,6 @@ export class Game extends BaseEntity {
     @Column({ type: 'bigint', nullable: true })
     ended: number;
 
-    @Column({ type: 'int' })
+    @Column({ type: 'int', default: 0 })
     vetoCount: number;
 }
