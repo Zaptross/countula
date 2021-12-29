@@ -1,8 +1,7 @@
 version: "3.9"
 services:
   postgres:
-    container_name: countula
-    image: "postgres:latest"
+    image: "${TYPEORM_DATABASE_ENGINE}:${TYPEORM_DATABASE_VERSION}"
     ports:
       - "5432:5432"
     environment:

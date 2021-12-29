@@ -10,7 +10,7 @@ import { Turn } from './tables/turn';
 
 export async function connect() {
     return createConnection({
-        type: 'postgres',
+        type: process.env.TYPEORM_DATABASE_ENGINE as any,
         host: process.env.TYPEORM_HOST!,
         port: Number(process.env.TYPEORM_PORT!),
         username: process.env.TYPEORM_USERNAME!,
