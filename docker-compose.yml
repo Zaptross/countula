@@ -1,0 +1,11 @@
+version: "3.9"
+services:
+  postgres:
+    container_name: countula
+    image: "postgres:latest"
+    ports:
+      - "5432:5432"
+    environment:
+      - "POSTGRES_USER=${TYPEORM_USERNAME}"
+      - "POSTGRES_PASSWORD=${TYPEORM_PASSWORD}"
+      - "POSTGRES_DB=${TYPEORM_DATABASE}"

@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "ts-node",
+            "name": "dev countula",
             "type": "node",
             "request": "launch",
             "args": ["${workspaceRoot}/src/index.ts", "vscode"],
