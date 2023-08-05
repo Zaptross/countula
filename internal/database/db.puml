@@ -1,0 +1,51 @@
+@startuml db
+<style>
+document {
+  BackgroundColor Black
+  FontColor White
+}
+classDiagram {
+  BackgroundColor Black
+  LineColor White
+  FontColor White
+}
+</style>
+title Database
+
+class Turn {
+  + int Game PK
+  + int Turn PK
+  + string UserID RFK
+  + string MessageID RFK
+  + bigint Rules
+  + int Guess
+  + bool Correct
+  + time CreatedAt
+}
+
+class Statistic {
+  + string UserID PK RFK
+  + string stat PK
+  + int value
+  + time UpdatedAt
+}
+
+class AuditLog {
+  + int ID PK
+  + string UserID RFK
+  + string MessageID RFK
+  + string Action
+  + string Data
+  + time CreatedAt
+}
+
+circle User
+
+circle Command
+
+Turn -r- "1..1" User
+User -r- "0..*" Statistic
+Statistic -d[hidden]- AuditLog
+Command -r-- "1..1" AuditLog
+
+@enduml
