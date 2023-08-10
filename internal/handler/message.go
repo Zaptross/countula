@@ -17,11 +17,6 @@ func GetMessageHandler(db *gorm.DB) func(*discordgo.Session, *discordgo.MessageC
 			return
 		}
 
-		// Ignore all messages that are not in the countula channel
-		if m.ChannelID != "698518953115377950" {
-			return
-		}
-
 		// Messages that start with ! are commands, and should be handled by the command handler
 		if m.Content[0] == '!' {
 			handleCommand(db, s, m)

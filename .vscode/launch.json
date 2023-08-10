@@ -8,8 +8,15 @@
             "name": "dev countula",
             "type": "node",
             "request": "launch",
-            "args": ["${workspaceRoot}/src/index.ts", "vscode"],
-            "runtimeArgs": ["--nolazy", "-r", "ts-node/register"],
+            "args": [
+                "${workspaceRoot}/src/index.ts",
+                "vscode"
+            ],
+            "runtimeArgs": [
+                "--nolazy",
+                "-r",
+                "ts-node/register"
+            ],
             "sourceMaps": true,
             "cwd": "${workspaceRoot}",
             "protocol": "inspector"
@@ -18,11 +25,34 @@
             "name": "debug current",
             "type": "node",
             "request": "launch",
-            "args": ["${file}", "vscode"],
-            "runtimeArgs": ["--nolazy", "-r", "ts-node/register"],
+            "args": [
+                "${file}",
+                "vscode"
+            ],
+            "runtimeArgs": [
+                "--nolazy",
+                "-r",
+                "ts-node/register"
+            ],
             "sourceMaps": true,
             "cwd": "${workspaceRoot}",
             "protocol": "inspector"
+        },
+        {
+            "name": "Bot",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/cmd/main.go",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "name": "File",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${fileDirname}",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }
