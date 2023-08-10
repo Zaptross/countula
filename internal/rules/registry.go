@@ -5,4 +5,5 @@ const (
 	IncrementRule2Id = 1 << iota
 	IncrementRule3Id = 1 << iota
 	IncrementRule7Id = 1 << iota
+	TakeTurnsRuleId  = 1 << iota
 )
