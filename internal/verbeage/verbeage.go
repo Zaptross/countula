@@ -9,8 +9,9 @@ import (
 )
 
 type Verbeage struct {
-	Fail  []Response `json:"fail"`
-	Count []Response `json:"count"`
+	Fail   []Response `json:"fail"`
+	Count  []Response `json:"count"`
+	Awaken []Response `json:"awaken"`
 }
 
 type Response struct {
@@ -25,8 +26,9 @@ type ResponseParts struct {
 }
 
 type ResponseTemplate struct {
-	Fail  []ResponseParts
-	Count []ResponseParts
+	Fail   []ResponseParts
+	Count  []ResponseParts
+	Awaken []ResponseParts
 }
 
 type TemplateFields struct {
@@ -51,8 +53,9 @@ func loadTemplates() {
 
 	v := getVerbeage()
 	verbeage = ResponseTemplate{
-		Fail:  []ResponseParts{},
-		Count: []ResponseParts{},
+		Fail:   []ResponseParts{},
+		Count:  []ResponseParts{},
+		Awaken: []ResponseParts{},
 	}
 
 	for _, f := range v.Fail {
@@ -60,6 +63,9 @@ func loadTemplates() {
 	}
 	for _, c := range v.Count {
 		verbeage.Count = append(verbeage.Count, createResponseParts(c))
+	}
+	for _, a := range v.Awaken {
+		verbeage.Awaken = append(verbeage.Awaken, createResponseParts(a))
 	}
 }
 
@@ -93,4 +99,14 @@ func randFrom[T any](arr []T) T {
 func GetRandomFail() ResponseParts {
 	loadTemplates()
 	return randFrom(verbeage.Fail)
+}
+
+func GetRandomCount() ResponseParts {
+	loadTemplates()
+	return randFrom(verbeage.Count)
+}
+
+func GetRandomAwaken() ResponseParts {
+	loadTemplates()
+	return randFrom(verbeage.Awaken)
 }

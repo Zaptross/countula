@@ -1,4 +1,15 @@
 {
+  "awaken": [
+    {
+      "message": "I'm awake, I'm awake. What do you want? Counting, fine."
+    },
+    {
+      "message": "Ah-hah-hah! It's time again for counting!"
+    },
+    {
+      "message": "It's time. Count, or die."
+    }
+  ],
   "fail": [
     {
       "reply": "fuck's sake.",

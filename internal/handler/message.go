@@ -5,7 +5,12 @@ import (
 	"gorm.io/gorm"
 )
 
-func GetMessageHandler(db *gorm.DB) func(*discordgo.Session, *discordgo.MessageCreate) {
+type Config struct {
+	AdminRoleId     string
+	CountingChannel string
+}
+
+func GetMessageHandler(db *gorm.DB, config Config) func(*discordgo.Session, *discordgo.MessageCreate) {
 	return func(s *discordgo.Session, m *discordgo.MessageCreate) {
 		// Ignore all messages created by the bot itself
 		if m.Author.ID == s.State.User.ID {

@@ -3,7 +3,6 @@ package database
 import (
 	"fmt"
 
-	"github.com/kelseyhightower/envconfig"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -18,15 +17,7 @@ type DatabaseConfig struct {
 	Timezone string
 }
 
-func GetConfig() DatabaseConfig {
-	var config DatabaseConfig
-	envconfig.Process("database", &config)
-	return config
-}
-
-func Connect() *gorm.DB {
-	config := GetConfig()
-
+func Connect(config DatabaseConfig) *gorm.DB {
 	connectionString := fmt.Sprintf(
 		"host=%s port=%s user=%s password=%s dbname=%s sslmode=%s TimeZone=%s",
 		config.Host,
