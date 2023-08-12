@@ -5,4 +5,4 @@ import (
 	"gorm.io/gorm"
 )
 
-func handleCommand(db *gorm.DB, s *discordgo.Session, m *discordgo.MessageCreate) {}
+func handleCommand(db *gorm.DB, s *discordgo.Session, m *discordgo.MessageCreate, config Config) {}

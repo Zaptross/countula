@@ -1,6 +1,7 @@
 {
     "prettier.tabWidth": 4,
     "cSpell.words": [
-        "discordgo"
+        "discordgo",
+        "gorm"
     ]
 }

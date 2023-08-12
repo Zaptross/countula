@@ -24,11 +24,11 @@ func GetMessageHandler(db *gorm.DB, config Config) func(*discordgo.Session, *dis
 
 		// Messages that start with ! are commands, and should be handled by the command handler
 		if m.Content[0] == '!' {
-			handleCommand(db, s, m)
+			handleCommand(db, s, m, config)
 			return
 		}
 
 		// Messages that are not commands are guesses, and should be handled by the guess handler
-		handleGuess(db, s, m)
+		handleGuess(db, s, m, config)
 	}
 }

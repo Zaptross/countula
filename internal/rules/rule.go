@@ -18,7 +18,7 @@ type Rule interface {
 type PreValidateRule interface {
 	Rule
 	// PreValidate returns the guess as an int and an error if the guess is invalid
-	PreValidate(db *gorm.DB, dg *discordgo.Session, msg discordgo.Message, guess int) (int, error)
+	PreValidate(db *gorm.DB, dg *discordgo.Session, msg discordgo.Message) (int, error)
 }
 
 // The purpose of a validate rule is to take the guess and validate that it meets the rule criteria, returning a bool

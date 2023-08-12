@@ -8,6 +8,7 @@ import (
 	"github.com/bwmarrin/discordgo"
 	"github.com/kelseyhightower/envconfig"
 	"github.com/zaptross/countula/internal/database"
+	"github.com/zaptross/countula/internal/game"
 	"github.com/zaptross/countula/internal/handler"
 	"github.com/zaptross/countula/internal/verbeage"
 )
@@ -46,6 +47,11 @@ func main() {
 	}
 
 	dg.ChannelMessageSend(botConfig.CountingChannel, t)
+
+	// if there's no game in progress, start a new one
+	if database.GetCurrentTurn(db).Game == 0 {
+		game.CreateNewGame(db, dg, botConfig.CountingChannel)
+	}
 
 	sc := make(chan os.Signal, 1)
 	signal.Notify(sc, syscall.SIGINT, syscall.SIGTERM, os.Interrupt)
