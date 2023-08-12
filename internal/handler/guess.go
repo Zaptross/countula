@@ -30,11 +30,12 @@ func handleGuess(db *gorm.DB, s *discordgo.Session, m *discordgo.MessageCreate, 
 		}
 	}
 
-	database.CreateTurnFromContext(db, s, m, turn, guess, true)
-	s.MessageReactionAdd(m.ChannelID, m.Message.ID, emoji.CHECK)
+	go database.CreateTurnFromContext(db, s, m, turn, guess, true)
+	go s.MessageReactionAdd(m.ChannelID, m.Message.ID, emoji.CHECK)
 }
 
 func failValidate(db *gorm.DB, s *discordgo.Session, m *discordgo.MessageCreate, lastTurn database.Turn, guess int, channelID string) {
+	go s.MessageReactionAdd(m.ChannelID, m.Message.ID, emoji.CROSS)
 	failPreValidate(s, m)
 	database.CreateTurnFromContext(db, s, m, lastTurn, guess, false)
 	game.CreateNewGame(db, s, channelID)
@@ -61,7 +62,7 @@ func failPreValidate(s *discordgo.Session, m *discordgo.MessageCreate) {
 			s.ChannelMessageSend(m.ChannelID, "**ERROR**: DOES NOT COMPUTE")
 		}
 
-		s.ChannelMessageSendReply(m.ChannelID, t, m.Message.Reference())
+		go s.ChannelMessageSendReply(m.ChannelID, t, m.Message.Reference())
 	}
 
 	if failMessage.Message != nil {
@@ -71,6 +72,6 @@ func failPreValidate(s *discordgo.Session, m *discordgo.MessageCreate) {
 			s.ChannelMessageSend(m.ChannelID, "**ERROR**: DOES NOT COMPUTE")
 		}
 
-		s.ChannelMessageSend(m.ChannelID, t)
+		go s.ChannelMessageSend(m.ChannelID, t)
 	}
 }
