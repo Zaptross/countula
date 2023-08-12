@@ -1,6 +1,8 @@
 package rules
 
 import (
+	"fmt"
+
 	"github.com/bwmarrin/discordgo"
 	"github.com/zaptross/countula/internal/database"
 	"gorm.io/gorm"
@@ -68,6 +70,18 @@ func GetRulesForTurn(g database.Turn) RulesForTurn {
 			case ValidateType:
 				rules.ValidateRules = append(rules.ValidateRules, r.(ValidateRule))
 			}
+		}
+	}
+
+	return rules
+}
+
+func GetRuleTextsForGame(g database.Turn) []string {
+	rules := []string{}
+
+	for _, r := range AllRules {
+		if g.Rules&r.Id() == r.Id() {
+			rules = append(rules, fmt.Sprintf("**%s**: %s\n", r.Name(), r.Description()))
 		}
 	}
 

@@ -12,6 +12,7 @@ type Verbeage struct {
 	Fail   []Response `json:"fail"`
 	Count  []Response `json:"count"`
 	Awaken []Response `json:"awaken"`
+	Rules  []Response `json:"rules"`
 }
 
 type Response struct {
@@ -29,6 +30,7 @@ type ResponseTemplate struct {
 	Fail   []ResponseParts
 	Count  []ResponseParts
 	Awaken []ResponseParts
+	Rules  []ResponseParts
 }
 
 type TemplateFields struct {
@@ -56,6 +58,7 @@ func loadTemplates() {
 		Fail:   []ResponseParts{},
 		Count:  []ResponseParts{},
 		Awaken: []ResponseParts{},
+		Rules:  []ResponseParts{},
 	}
 
 	for _, f := range v.Fail {
@@ -66,6 +69,9 @@ func loadTemplates() {
 	}
 	for _, a := range v.Awaken {
 		verbeage.Awaken = append(verbeage.Awaken, createResponseParts(a))
+	}
+	for _, r := range v.Rules {
+		verbeage.Rules = append(verbeage.Rules, createResponseParts(r))
 	}
 }
 
@@ -109,4 +115,9 @@ func GetRandomCount() ResponseParts {
 func GetRandomAwaken() ResponseParts {
 	loadTemplates()
 	return randFrom(verbeage.Awaken)
+}
+
+func GetRandomRuleMessage() ResponseParts {
+	loadTemplates()
+	return randFrom(verbeage.Rules)
 }

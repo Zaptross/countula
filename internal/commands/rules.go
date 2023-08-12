@@ -1,4 +1,4 @@
-package game
+package commands
 
 import (
 	"fmt"
@@ -11,15 +11,14 @@ import (
 	"gorm.io/gorm"
 )
 
-func CreateNewGame(db *gorm.DB, s *discordgo.Session, channelID string) database.Turn {
-	newGame := database.Turn{
-		UserID:  s.State.User.ID,
-		Game:    database.GetNextGame(db),
-		Rules:   getRulesForNewGame(),
-		Turn:    0,
-		Guess:   0,
-		Correct: true,
-	}
+type RulesCommand struct{}
+
+const (
+	RulesCommandName = "!rules"
+)
+
+func (c RulesCommand) Execute(db *gorm.DB, s *discordgo.Session, m *discordgo.MessageCreate) {
+	turn := database.GetCurrentTurn(db)
 
 	ruleMessage := verbeage.GetRandomRuleMessage()
 
@@ -29,15 +28,10 @@ func CreateNewGame(db *gorm.DB, s *discordgo.Session, channelID string) database
 		panic("Could not create new game: " + err.Error())
 	}
 
-	rules := rules.GetRuleTextsForGame(newGame)
+	rules := rules.GetRuleTextsForGame(turn)
 
-	msg, err := s.ChannelMessageSend(channelID, fmt.Sprintf("%s\n%s", rm, strings.Join(rules, "\n")))
+	_, err = s.ChannelMessageSendReply(m.ChannelID, fmt.Sprintf("%s\n%s", rm, strings.Join(rules, "\n")), m.Message.Reference())
 	if err != nil {
 		panic("Could not create new game: " + err.Error())
 	}
-
-	newGame.MessageID = msg.ID
-	db.Create(&newGame)
-
-	return newGame
 }

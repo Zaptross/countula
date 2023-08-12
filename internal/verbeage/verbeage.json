@@ -61,5 +61,10 @@
     {
       "reply": "https://media.giphy.com/media/fteNbx39dKs37ZqCDm/giphy.gif"
     }
+  ],
+  "rules": [
+    {
+      "message": "Count under ***my*** edicts:"
+    }
   ]
 }
