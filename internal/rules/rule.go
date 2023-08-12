@@ -5,6 +5,7 @@ import (
 
 	"github.com/bwmarrin/discordgo"
 	"github.com/zaptross/countula/internal/database"
+	"github.com/zaptross/countula/internal/utils"
 	"gorm.io/gorm"
 )
 
@@ -86,4 +87,12 @@ func GetRuleTextsForGame(g database.Turn) []string {
 	}
 
 	return rules
+}
+
+func GetRandomPreValidateRule() PreValidateRule {
+	return utils.RandFrom(PreValidateRules).(PreValidateRule)
+}
+
+func GetRandomValidateRule() ValidateRule {
+	return utils.RandFrom(ValidateRules).(ValidateRule)
 }

@@ -5,7 +5,8 @@ import (
 	_ "embed"
 	"encoding/json"
 	"html/template"
-	"math/rand"
+
+	"github.com/zaptross/countula/internal/utils"
 )
 
 type Verbeage struct {
@@ -98,26 +99,22 @@ func createResponseParts(r Response) ResponseParts {
 	return rp
 }
 
-func randFrom[T any](arr []T) T {
-	return arr[rand.Intn(len(arr))]
-}
-
 func GetRandomFail() ResponseParts {
 	loadTemplates()
-	return randFrom(verbeage.Fail)
+	return utils.RandFrom(verbeage.Fail)
 }
 
 func GetRandomCount() ResponseParts {
 	loadTemplates()
-	return randFrom(verbeage.Count)
+	return utils.RandFrom(verbeage.Count)
 }
 
 func GetRandomAwaken() ResponseParts {
 	loadTemplates()
-	return randFrom(verbeage.Awaken)
+	return utils.RandFrom(verbeage.Awaken)
 }
 
 func GetRandomRuleMessage() ResponseParts {
 	loadTemplates()
-	return randFrom(verbeage.Rules)
+	return utils.RandFrom(verbeage.Rules)
 }
