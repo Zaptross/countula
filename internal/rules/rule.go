@@ -33,12 +33,14 @@ type ValidateRule interface {
 
 const (
 	PreValidateType = "PreValidate"
+	CountType       = "Count"
 	ValidateType    = "Validate"
 )
 
 var (
 	AllRules         = []Rule{}
 	PreValidateRules = []Rule{}
+	CountRules       = []Rule{}
 	ValidateRules    = []Rule{}
 )
 
@@ -47,6 +49,8 @@ func registerRule(r Rule) {
 	switch r.Type() {
 	case PreValidateType:
 		PreValidateRules = append(PreValidateRules, r)
+	case CountType:
+		CountRules = append(CountRules, r)
 	case ValidateType:
 		ValidateRules = append(ValidateRules, r)
 	}
@@ -54,12 +58,14 @@ func registerRule(r Rule) {
 
 type RulesForTurn struct {
 	PreValidateRules []PreValidateRule
+	CountRules       []ValidateRule
 	ValidateRules    []ValidateRule
 }
 
 func GetRulesForTurn(g database.Turn) RulesForTurn {
 	rules := RulesForTurn{
 		PreValidateRules: []PreValidateRule{},
+		CountRules:       []ValidateRule{},
 		ValidateRules:    []ValidateRule{},
 	}
 
@@ -68,6 +74,8 @@ func GetRulesForTurn(g database.Turn) RulesForTurn {
 			switch r.Type() {
 			case PreValidateType:
 				rules.PreValidateRules = append(rules.PreValidateRules, r.(PreValidateRule))
+			case CountType:
+				rules.CountRules = append(rules.CountRules, r.(ValidateRule))
 			case ValidateType:
 				rules.ValidateRules = append(rules.ValidateRules, r.(ValidateRule))
 			}
@@ -91,6 +99,10 @@ func GetRuleTextsForGame(g database.Turn) []string {
 
 func GetRandomPreValidateRule() PreValidateRule {
 	return utils.RandFrom(PreValidateRules).(PreValidateRule)
+}
+
+func GetRandomCountRule() ValidateRule {
+	return utils.RandFrom(CountRules).(ValidateRule)
 }
 
 func GetRandomValidateRule() ValidateRule {

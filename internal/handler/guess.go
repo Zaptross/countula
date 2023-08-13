@@ -36,12 +36,12 @@ func handleGuess(db *gorm.DB, s *discordgo.Session, m *discordgo.MessageCreate, 
 
 func failValidate(db *gorm.DB, s *discordgo.Session, m *discordgo.MessageCreate, lastTurn database.Turn, guess int, channelID string) {
 	go s.MessageReactionAdd(m.ChannelID, m.Message.ID, emoji.CROSS)
-	failPreValidate(s, m)
+	failMessageSend(s, m)
 	database.CreateTurnFromContext(db, s, m, lastTurn, guess, false)
 	game.CreateNewGame(db, s, channelID)
 }
 
-func failPreValidate(s *discordgo.Session, m *discordgo.MessageCreate) {
+func failMessageSend(s *discordgo.Session, m *discordgo.MessageCreate) {
 	failMessage := verbeage.GetRandomFail()
 
 	username := m.Author.Username

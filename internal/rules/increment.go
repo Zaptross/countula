@@ -27,7 +27,7 @@ func createIncrementRule(increment int, id int, weight int) Rule {
 		increment: increment,
 		id:        id,
 		weight:    weight,
-		ruleType:  ValidateType,
+		ruleType:  CountType,
 	}
 
 	registerRule(r)
