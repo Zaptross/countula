@@ -15,6 +15,9 @@ type Rule interface {
 	Weight() int
 	Description() string
 	Type() string
+
+	// OnNewGame is called once when a new game is started
+	OnNewGame(db *gorm.DB, dg *discordgo.Session, ng database.Turn, channelID string)
 }
 
 // The purpose of a prevalidate rule is to take the message and extract the guess from it, and return the guess as an int
@@ -77,6 +80,18 @@ func GetRulesForTurn(g database.Turn) RulesForTurn {
 			case ValidateType:
 				rules.ValidateRules = append(rules.ValidateRules, r.(ValidateRule))
 			}
+		}
+	}
+
+	return rules
+}
+
+func GetAllRulesForTurn(g database.Turn) []Rule {
+	rules := []Rule{}
+
+	for _, r := range AllRules {
+		if g.Rules&r.Id() == r.Id() {
+			rules = append(rules, r)
 		}
 	}
 

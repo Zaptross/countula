@@ -27,6 +27,7 @@ func (ttr TakeTurnsRule) Weight() int {
 func (ttr TakeTurnsRule) Type() string {
 	return ttr.ruleType
 }
+func (ttr TakeTurnsRule) OnNewGame(_ *gorm.DB, _ *discordgo.Session, _ database.Turn, _ string) {}
 
 func (ttr TakeTurnsRule) Validate(db *gorm.DB, lastTurn database.Turn, msg discordgo.Message, guess int) bool {
 	return lastTurn.UserID != msg.Author.ID

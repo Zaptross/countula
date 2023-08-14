@@ -27,6 +27,7 @@ func (nvr NoValidateRule) Weight() int {
 func (nvr NoValidateRule) Type() string {
 	return nvr.ruleType
 }
+func (nvr NoValidateRule) OnNewGame(_ *gorm.DB, _ *discordgo.Session, _ database.Turn, _ string) {}
 
 func (nvr NoValidateRule) Validate(_ *gorm.DB, lastTurn database.Turn, _ discordgo.Message, _ int) bool {
 	return true

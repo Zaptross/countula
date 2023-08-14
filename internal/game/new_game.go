@@ -21,23 +21,27 @@ func CreateNewGame(db *gorm.DB, s *discordgo.Session, channelID string) database
 		Correct: true,
 	}
 
+	db.Create(&newGame)
 	ruleMessage := verbeage.GetRandomRuleMessage()
-
 	rm, err := ruleMessage.Message(verbeage.TemplateFields{})
 
 	if err != nil {
 		panic("Could not create new game: " + err.Error())
 	}
 
-	rules := rules.GetRuleTextsForGame(newGame)
+	ruleTexts := rules.GetRuleTextsForGame(newGame)
 
-	msg, err := s.ChannelMessageSend(channelID, fmt.Sprintf("%s\n%s", rm, strings.Join(rules, "\n")))
+	msg, err := s.ChannelMessageSend(channelID, fmt.Sprintf("%s\n%s", rm, strings.Join(ruleTexts, "\n")))
 	if err != nil {
 		panic("Could not create new game: " + err.Error())
 	}
 
 	newGame.MessageID = msg.ID
-	db.Create(&newGame)
+	db.Update("message_id", newGame.MessageID)
+
+	for _, rule := range rules.GetAllRulesForTurn(newGame) {
+		rule.OnNewGame(db, s, newGame, channelID)
+	}
 
 	return newGame
 }

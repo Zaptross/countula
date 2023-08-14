@@ -49,6 +49,7 @@ func (ir IncrementRule) Weight() int {
 func (ir IncrementRule) Type() string {
 	return ir.ruleType
 }
+func (ir IncrementRule) OnNewGame(_ *gorm.DB, _ *discordgo.Session, _ database.Turn, _ string) {}
 
 func (ir IncrementRule) Validate(db *gorm.DB, lastTurn database.Turn, msg discordgo.Message, guess int) bool {
 	return lastTurn.Guess+ir.increment == guess

@@ -8,4 +8,5 @@ const (
 	TakeTurnsRuleId     = 1 << iota
 	GuessNormallyRuleId = 1 << iota
 	NoValidateRuleId    = 1 << iota
+	FibonacciRuleId     = 1 << iota
 )
