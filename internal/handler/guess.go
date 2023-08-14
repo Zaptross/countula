@@ -33,8 +33,18 @@ func handleGuess(db *gorm.DB, s *discordgo.Session, m *discordgo.MessageCreate, 
 		}
 	}
 
-	database.CreateTurnFromContext(db, s, m, turn, guess, true)
+	hst := database.GetHighScoreTurn(db)
+	ct := database.CreateTurnFromContext(db, s, m, turn, guess, true)
+
+	go checkHighScore(s, m, ct, hst)
 	go s.MessageReactionAdd(m.ChannelID, m.Message.ID, emoji.CHECK)
+}
+
+func checkHighScore(s *discordgo.Session, m *discordgo.MessageCreate, ct database.Turn, hs database.Turn) {
+	if ct.Turn > hs.Turn {
+		go s.MessageReactionAdd(m.Message.ChannelID, ct.MessageID, emoji.HIGH_SCORE)
+		go s.MessageReactionRemove(m.Message.ChannelID, hs.MessageID, emoji.HIGH_SCORE, s.State.User.ID)
+	}
 }
 
 func failValidate(db *gorm.DB, s *discordgo.Session, m *discordgo.MessageCreate, lastTurn database.Turn, guess int, channelID string) {

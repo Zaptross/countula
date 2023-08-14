@@ -24,6 +24,12 @@ func GetCurrentTurn(db *gorm.DB) Turn {
 	return currentTurn
 }
 
+func GetHighScoreTurn(db *gorm.DB) Turn {
+	var highScoreTurn Turn
+	db.Order("turn desc").First(&highScoreTurn)
+	return highScoreTurn
+}
+
 func GetNextGame(db *gorm.DB) int {
 	var lastTurn Turn
 	db.Last(&lastTurn)
