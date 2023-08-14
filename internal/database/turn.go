@@ -20,7 +20,7 @@ type Turn struct {
 
 func GetCurrentTurn(db *gorm.DB) Turn {
 	var currentTurn Turn
-	db.Last(&currentTurn)
+	db.Order("game desc, turn desc").First(&currentTurn)
 	return currentTurn
 }
 
@@ -28,12 +28,6 @@ func GetNextGame(db *gorm.DB) int {
 	var lastTurn Turn
 	db.Last(&lastTurn)
 	return lastTurn.Game + 1
-}
-
-func GetNextTurn(db *gorm.DB) int {
-	var lastTurn Turn
-	db.Last(&lastTurn)
-	return lastTurn.Turn + 1
 }
 
 func CreateTurnFromContext(db *gorm.DB, s *discordgo.Session, m *discordgo.MessageCreate, lastTurn Turn, guess int, correct bool) Turn {
