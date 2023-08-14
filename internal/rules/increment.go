@@ -50,8 +50,6 @@ func (ir IncrementRule) Type() string {
 	return ir.ruleType
 }
 
-func (ir IncrementRule) Validate(db *gorm.DB, dg *discordgo.Session, msg discordgo.Message, guess int) bool {
-	var lastTurn database.Turn
-	db.Last(&lastTurn)
+func (ir IncrementRule) Validate(db *gorm.DB, lastTurn database.Turn, msg discordgo.Message, guess int) bool {
 	return lastTurn.Guess+ir.increment == guess
 }

@@ -28,7 +28,7 @@ type PreValidateRule interface {
 type ValidateRule interface {
 	Rule
 	// Validate returns true if the guess is correct
-	Validate(db *gorm.DB, dg *discordgo.Session, msg discordgo.Message, guess int) bool
+	Validate(db *gorm.DB, lt database.Turn, msg discordgo.Message, guess int) bool
 }
 
 const (
@@ -58,14 +58,12 @@ func registerRule(r Rule) {
 
 type RulesForTurn struct {
 	PreValidateRules []PreValidateRule
-	CountRules       []ValidateRule
 	ValidateRules    []ValidateRule
 }
 
 func GetRulesForTurn(g database.Turn) RulesForTurn {
 	rules := RulesForTurn{
 		PreValidateRules: []PreValidateRule{},
-		CountRules:       []ValidateRule{},
 		ValidateRules:    []ValidateRule{},
 	}
 
@@ -75,7 +73,7 @@ func GetRulesForTurn(g database.Turn) RulesForTurn {
 			case PreValidateType:
 				rules.PreValidateRules = append(rules.PreValidateRules, r.(PreValidateRule))
 			case CountType:
-				rules.CountRules = append(rules.CountRules, r.(ValidateRule))
+				rules.ValidateRules = append(rules.ValidateRules, r.(ValidateRule))
 			case ValidateType:
 				rules.ValidateRules = append(rules.ValidateRules, r.(ValidateRule))
 			}
@@ -90,7 +88,9 @@ func GetRuleTextsForGame(g database.Turn) []string {
 
 	for _, r := range AllRules {
 		if g.Rules&r.Id() == r.Id() {
-			rules = append(rules, fmt.Sprintf("**%s**: %s\n", r.Name(), r.Description()))
+			if r.Name() != "" {
+				rules = append(rules, fmt.Sprintf("**%s**: %s\n", r.Name(), r.Description()))
+			}
 		}
 	}
 
@@ -98,13 +98,13 @@ func GetRuleTextsForGame(g database.Turn) []string {
 }
 
 func GetRandomPreValidateRule() PreValidateRule {
-	return utils.RandFrom(PreValidateRules).(PreValidateRule)
+	return utils.WeightedRandFrom(PreValidateRules).(PreValidateRule)
 }
 
 func GetRandomCountRule() ValidateRule {
-	return utils.RandFrom(CountRules).(ValidateRule)
+	return utils.WeightedRandFrom(CountRules).(ValidateRule)
 }
 
 func GetRandomValidateRule() ValidateRule {
-	return utils.RandFrom(ValidateRules).(ValidateRule)
+	return utils.WeightedRandFrom(ValidateRules).(ValidateRule)
 }

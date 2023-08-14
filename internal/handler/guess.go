@@ -1,6 +1,8 @@
 package handler
 
 import (
+	"fmt"
+
 	"github.com/bwmarrin/discordgo"
 	"github.com/zaptross/countula/internal/database"
 	"github.com/zaptross/countula/internal/emoji"
@@ -24,13 +26,14 @@ func handleGuess(db *gorm.DB, s *discordgo.Session, m *discordgo.MessageCreate, 
 	}
 
 	for _, vr := range rules.ValidateRules {
-		if !vr.Validate(db, s, *m.Message, guess) {
+		if !vr.Validate(db, turn, *m.Message, guess) {
+			println(fmt.Sprintf("Failed validation at rule: %s, with guess: %d, after last guess: %d", vr.Name(), guess, turn.Guess))
 			failValidate(db, s, m, turn, guess, config.CountingChannel)
 			return
 		}
 	}
 
-	go database.CreateTurnFromContext(db, s, m, turn, guess, true)
+	database.CreateTurnFromContext(db, s, m, turn, guess, true)
 	go s.MessageReactionAdd(m.ChannelID, m.Message.ID, emoji.CHECK)
 }
 

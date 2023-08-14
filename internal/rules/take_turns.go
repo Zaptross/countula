@@ -28,9 +28,7 @@ func (ttr TakeTurnsRule) Type() string {
 	return ttr.ruleType
 }
 
-func (ttr TakeTurnsRule) Validate(db *gorm.DB, dg *discordgo.Session, msg discordgo.Message, guess int) bool {
-	var lastTurn database.Turn
-	db.Last(&lastTurn)
+func (ttr TakeTurnsRule) Validate(db *gorm.DB, lastTurn database.Turn, msg discordgo.Message, guess int) bool {
 	return lastTurn.UserID != msg.Author.ID
 }
 
