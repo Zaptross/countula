@@ -24,9 +24,21 @@ var (
 	StatIncorrect       = makeStatistic("incorrect", "Total number of incorrect answers")
 	StatStreak          = makeStatistic("streak", "Current streak of correct answers")
 	StatStreakMax       = makeStatistic("streak_max", "Maximum streak of correct answers")
-	StatGames           = makeStatistic("games", "Total number of games participated in")
 	StatGameStreakBreak = makeStatistic("game_streak_break", "Longest game you've ended by getting an answer wrong")
 )
+
+var allStatistics = []*Statistic{
+	StatTurns,
+	StatCorrect,
+	StatIncorrect,
+	StatStreak,
+	StatStreakMax,
+	StatGameStreakBreak,
+}
+
+func GetAllStatistics() []*Statistic {
+	return allStatistics
+}
 
 func makeStatistic(key string, description string) *Statistic {
 	return &Statistic{

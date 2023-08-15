@@ -2,12 +2,14 @@ package handler
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/bwmarrin/discordgo"
 	"github.com/zaptross/countula/internal/database"
 	"github.com/zaptross/countula/internal/emoji"
 	"github.com/zaptross/countula/internal/game"
 	"github.com/zaptross/countula/internal/rules"
+	"github.com/zaptross/countula/internal/statistics"
 	"github.com/zaptross/countula/internal/verbeage"
 	"gorm.io/gorm"
 )
@@ -27,7 +29,7 @@ func handleGuess(db *gorm.DB, s *discordgo.Session, m *discordgo.MessageCreate, 
 
 	for _, vr := range rules.ValidateRules {
 		if !vr.Validate(db, turn, *m.Message, guess) {
-			println(fmt.Sprintf("Failed validation at rule: %s, with guess: %d, after last guess: %d", vr.Name(), guess, turn.Guess))
+			println(fmt.Sprintf("%s - Failed validation at rule: %s, with guess: %d, after last guess: %d", time.Now().Format(time.RFC3339), vr.Name(), guess, turn.Guess))
 			failValidate(db, s, m, turn, guess, config.CountingChannel)
 			return
 		}
@@ -38,6 +40,8 @@ func handleGuess(db *gorm.DB, s *discordgo.Session, m *discordgo.MessageCreate, 
 
 	go checkHighScore(s, m, ct, hst)
 	go s.MessageReactionAdd(m.ChannelID, m.Message.ID, emoji.CHECK)
+
+	go statistics.Collect(db, s, m, config.CountingChannel, ct)
 }
 
 func checkHighScore(s *discordgo.Session, m *discordgo.MessageCreate, ct database.Turn, hs database.Turn) {
