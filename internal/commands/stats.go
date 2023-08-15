@@ -15,3 +15,7 @@ const (
 func (c StatsCommand) Execute(db *gorm.DB, s *discordgo.Session, m *discordgo.MessageCreate) {
 	go statistics.Display(db, s, m)
 }
+
+func (c StatsCommand) Describe() string {
+	return "I shall recount your... attempts."
+}

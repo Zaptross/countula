@@ -35,3 +35,7 @@ func (c RulesCommand) Execute(db *gorm.DB, s *discordgo.Session, m *discordgo.Me
 		panic("Could not create new game: " + err.Error())
 	}
 }
+
+func (c RulesCommand) Describe() string {
+	return "I shall reiterate the rules."
+}

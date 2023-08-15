@@ -33,3 +33,7 @@ func (c StateCommand) Execute(db *gorm.DB, s *discordgo.Session, m *discordgo.Me
 		panic("Could not create new game: " + err.Error())
 	}
 }
+
+func (c StateCommand) Describe() string {
+	return "I shall tell you where we left off."
+}
