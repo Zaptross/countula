@@ -19,11 +19,11 @@ type Statistic struct {
 }
 
 var (
-	StatTurns           = makeStatistic("turns", "Total number of turns")
-	StatCorrect         = makeStatistic("correct", "Total number of correct answers")
-	StatIncorrect       = makeStatistic("incorrect", "Total number of incorrect answers")
-	StatStreak          = makeStatistic("streak", "Current streak of correct answers")
-	StatStreakMax       = makeStatistic("streak_max", "Maximum streak of correct answers")
+	StatTurns           = makeStatistic("turns", "Turns played")
+	StatCorrect         = makeStatistic("correct", "Your correct guesses")
+	StatIncorrect       = makeStatistic("incorrect", "Your fuckups")
+	StatStreak          = makeStatistic("streak", "Current streak")
+	StatStreakMax       = makeStatistic("streak_max", "Your longest streak")
 	StatGameStreakBreak = makeStatistic("game_streak_break", "Longest game you've ended by getting an answer wrong")
 )
 
@@ -38,6 +38,15 @@ var allStatistics = []*Statistic{
 
 func GetAllStatistics() []*Statistic {
 	return allStatistics
+}
+
+func GetStatByKey(key string) *Statistic {
+	for _, stat := range allStatistics {
+		if stat.Key == key {
+			return stat
+		}
+	}
+	return nil
 }
 
 func makeStatistic(key string, description string) *Statistic {
