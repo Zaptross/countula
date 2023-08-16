@@ -43,7 +43,7 @@ spec:
               port: http
           envfrom:
             - configMapRef:
-              name: {{include "countula.fullname" .}}
+                name: {{include "countula.fullname" .}}
           readinessProbe:
             httpGet:
               path: /
