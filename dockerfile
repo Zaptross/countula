@@ -1,14 +1,21 @@
-FROM node:16-alpine3.11
+FROM golang:alpine as build
 
-# create folder
-WORKDIR /usr/src/countula
+RUN apk --no-cache add ca-certificates
 
-# copy package lock and install prodlike build
-COPY ./package*.json ./
-RUN npm ci --only=production
+WORKDIR /build
+COPY . .
+RUN go mod download
+ENV CGO_ENABLED=0
+RUN cd /build/cmd && go build -a -o /build/countula
 
-# copy built code into build
-COPY ./dist/* ./
+ARG version
+RUN echo "$version" > /etc/program-version
+RUN chattr +i /etc/program-version
 
-# set startup command
-CMD ["node", "index.js"]
+# Create the output container from the built image.
+FROM scratch
+COPY --from=build /build/countula /countula
+COPY --from=build /etc/ssl/certs/ /etc/ssl/certs
+COPY --from=build /etc/program-version /etc/program-version
+
+ENTRYPOINT [ "/countula" ]

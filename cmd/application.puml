@@ -1,0 +1,45 @@
+@startuml application flow
+<style>
+document {
+  BackgroundColor Black
+  FontColor White
+}
+componentDiagram {
+  BackgroundColor Black
+  LineColor White
+  FontColor White
+}
+</style>
+title Application Flow
+
+actor User
+
+node Discord
+
+rectangle Bot {
+  component MessageReceiver as mr
+  control IsCommandOrGuess as icog
+  control CommandHandler as ch
+  rectangle RuleHandler as rh {
+    card "prevalidate()" as pre
+    card "validate()" as val
+    card "execute()" as exe
+
+    pre -d-> val
+    val -d-> exe
+  }
+  card "<end>" as end
+
+  mr -d-> icog
+  icog -d-> end : neither
+  icog -d-> ch : command
+  ch --> end : handle command
+  mr -[hidden]r-- rh
+  icog -r-> pre : guess
+  exe --> end : handle guess
+}
+
+User -u-> Discord : sends message
+Discord -r-> mr : sends message
+
+@enduml

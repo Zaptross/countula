@@ -137,3 +137,5 @@ prod
 # TernJS port file
 
 .tern-port
+
+__debug_bin

@@ -1,0 +1,117 @@
+{
+  "awaken": [
+    {
+      "message": "I'm awake, I'm awake. What do you want? Counting, fine."
+    },
+    {
+      "message": "Ah-hah-hah! It's time again for counting!"
+    },
+    {
+      "message": "It's time. Count, or die."
+    }
+  ],
+  "fail": [
+    {
+      "reply": "fuck's sake.",
+      "message": "You had to go and fuck it didn't you {{ .Username }}? Let's start again from the top, shall we?"
+    },
+    {
+      "reply": "your answer got me like:",
+      "message": "https://tenor.com/view/umm-confused-blinking-okay-white-guy-blinking-gif-7513882"
+    },
+    {
+      "reply": "grade one maths failed you."
+    },
+    {
+      "reply": "{{ .Username }}, {{ .Username }}. *sigh* Your parents must be so disappointed."
+    },
+    {
+      "reply": "Let me let you in on a secret: ||you got it wrong genius||."
+    },
+    {
+      "reply": "you couldn't count the bats in the hall, even if only Lyuba were here."
+    },
+    {
+      "reply": "I'm going to take a big fat {{ .Username }}.",
+      "message": "\"{{ .Username }}\" is my new word for **shit** after this attempt."
+    }
+  ],
+  "count": [
+    {
+      "reply": "https://media.giphy.com/media/l1KueikfEPGbTzZcI/giphy.gif"
+    },
+    {
+      "reply": "Ah, I see you also know the answer. Where is your towel?"
+    },
+    {
+      "reply": "Nice."
+    },
+    {
+      "reply": "How do you know my license number?"
+    },
+    {
+      "reply": "https://media.giphy.com/media/l41lUR5urK4IAk3V6/giphy.gif"
+    },
+    {
+      "reply": "https://media.giphy.com/media/9J7tdYltWyXIY/giphy.gif"
+    },
+    {
+      "reply": "https://media.giphy.com/media/Jnx5ztK49mHJe/giphy.gif"
+    },
+    {
+      "reply": "https://media.giphy.com/media/fteNbx39dKs37ZqCDm/giphy.gif"
+    }
+  ],
+  "rules": [
+    {
+      "message": "Count under ***my*** edicts:"
+    }
+  ],
+  "help": [
+    {
+      "reply": "Help... you? *Oh honey*. No-one can help ***you***."
+    },
+    {
+      "reply": "I think the next number is coincidentally *your social security number*."
+    },
+    {
+      "reply": "https://media.giphy.com/media/3o6MbdZPdSUE0FE4zC/giphy.gif"
+    },
+    {
+      "reply": "https://media.giphy.com/media/kxvOKfNGaolNgMiccG/giphy.gif"
+    },
+    {
+      "reply": "{{ .Username }}, you're a lost cause."
+    },
+    {
+      "reply": "Sure, sure, I'll get *right on that*."
+    },
+    {
+      "reply": "Oh sweetie, I'm not your grade three maths teacher."
+    },
+    {
+      "reply": "Helping you is like making *shoes for birds*. Pointless, and makes me regret my choices."
+    },
+    {
+      "reply": "Want me to tie your shoes for you too, {{ .Username }}?"
+    },
+    {
+      "reply": "Okay smoothbrain, lemme break it down for you..."
+    },
+    {
+      "reply": "Sure, the next answer is: ||fuck you||. Simple really."
+    },
+    {
+      "reply": "Ok boomer, surprised you got this far."
+    },
+    {
+      "reply": "What, little iPad baby can't count for yourself?"
+    },
+    {
+      "reply": "I'm not ChatGPT, you lazy fuck."
+    },
+    {
+      "reply": "...I'm not a licenced therapist."
+    }
+  ]
+}
