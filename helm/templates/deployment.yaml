@@ -41,6 +41,9 @@ spec:
             httpGet:
               path: /
               port: http
+          envfrom:
+            - configMapRef:
+              name: {{include "countula.fullname" .}}
           readinessProbe:
             httpGet:
               path: /
