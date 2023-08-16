@@ -66,5 +66,52 @@
     {
       "message": "Count under ***my*** edicts:"
     }
+  ],
+  "help": [
+    {
+      "reply": "Help... you? *Oh honey*. No-one can help ***you***."
+    },
+    {
+      "reply": "I think the next number is coincidentally *your social security number*."
+    },
+    {
+      "reply": "https://media.giphy.com/media/3o6MbdZPdSUE0FE4zC/giphy.gif"
+    },
+    {
+      "reply": "https://media.giphy.com/media/kxvOKfNGaolNgMiccG/giphy.gif"
+    },
+    {
+      "reply": "{{ .Username }}, you're a lost cause."
+    },
+    {
+      "reply": "Sure, sure, I'll get *right on that*."
+    },
+    {
+      "reply": "Oh sweetie, I'm not your grade three maths teacher."
+    },
+    {
+      "reply": "Helping you is like making *shoes for birds*. Pointless, and makes me regret my choices."
+    },
+    {
+      "reply": "Want me to tie your shoes for you too, {{ .Username }}?"
+    },
+    {
+      "reply": "Okay smoothbrain, lemme break it down for you..."
+    },
+    {
+      "reply": "Sure, the next answer is: ||fuck you||. Simple really."
+    },
+    {
+      "reply": "Ok boomer, surprised you got this far."
+    },
+    {
+      "reply": "What, little iPad baby can't count for yourself?"
+    },
+    {
+      "reply": "I'm not ChatGPT, you lazy fuck."
+    },
+    {
+      "reply": "...I'm not a licenced therapist."
+    }
   ]
 }

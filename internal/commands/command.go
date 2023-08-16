@@ -11,10 +11,12 @@ type Command interface {
 }
 
 var allCommands = map[string]Command{
-	RulesCommandName: RulesCommand{},
-	StateCommandName: StateCommand{},
-	StatsCommandName: StatsCommand{},
-	ListCommandName:  ListCommand{},
+	HelpCommandName:    HelpCommand{},
+	ListCommandName:    ListCommand{},
+	RulesCommandName:   RulesCommand{},
+	StateCommandName:   StateCommand{},
+	StatsCommandName:   StatsCommand{},
+	VersionCommandName: VersionCommand{},
 }
 
 func GetCommand(commandName string) Command {
