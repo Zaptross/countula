@@ -1,10 +1,29 @@
 version: "3.9"
 services:
-  postgres:
-    image: "${TYPEORM_DATABASE_ENGINE}:${TYPEORM_DATABASE_VERSION}"
+  database:
+    image: "postgres:latest"
     ports:
-      - "5432:5432"
+      - "${DATABASE_PORT}:5432"
     environment:
-      - "POSTGRES_USER=${TYPEORM_USERNAME}"
-      - "POSTGRES_PASSWORD=${TYPEORM_PASSWORD}"
-      - "POSTGRES_DB=${TYPEORM_DATABASE}"
+      - "DATABASE_USER=${DATABASE_USER}"
+      - "DATABASE_PASSWORD=${DATABASE_PASSWORD}"
+      - "DATABASE_DB=${DATABASE_DB}"
+    restart: unless-stopped
+  countula:
+    image: zaptross/countula:latest
+    links:
+      - "database:compose-database"
+    depends_on:
+      - database
+    environment:
+      - "DISCORD_TOKEN=${DISCORD_TOKEN}"
+      - "DISCORD_COUNTINGCHANNEL=${DISCORD_COUNTINGCHANNEL}"
+      - "DISCORD_ROLEADMINROLEID=${DISCORD_ROLEADMINROLEID}"
+      - "DATABASE_USER=${DATABASE_USER}"
+      - "DATABASE_PASSWORD=${DATABASE_PASSWORD}"
+      - "DATABASE_DB=${DATABASE_DB}"
+      - "DATABASE_PORT=${DATABASE_PORT}"
+      - "DATABASE_HOST=compose-postgres"
+      - "DATABASE_SSL=${DATABASE_SSL}"
+      - "DATABASE_TIMEZONE=${DATABASE_TIMEZONE}"
+
