@@ -16,19 +16,19 @@ It may be slightly evil.
 -   `!help` - Provides "help" to the user
 -   `!rules` - Provides the rules of the game
 
-![Rules command output](https://raw.githubusercontent.com/Zaptross/countula/blob/main/readme-assets/rules-image.png)
+![Rules command output](https://raw.githubusercontent.com/Zaptross/countula/main/readme-assets/rules-image.png)
 
 -   `!state` - Provides the current state of the game
 
-![State command output](https://raw.githubusercontent.com/Zaptross/countula/blob/main/readme-assets/state-image.png)
+![State command output](https://raw.githubusercontent.com/Zaptross/countula/main/readme-assets/state-image.png)
 
 -   `!stats` - Lists the stats of the user
 
-![Stats command output](https://raw.githubusercontent.com/Zaptross/countula/blob/main/readme-assets/stats-image.png)
+![Stats command output](https://raw.githubusercontent.com/Zaptross/countula/main/readme-assets/stats-image.png)
 
 -   `!version` - Provides the version of the bot
 
-![Version command output](https://raw.githubusercontent.com/Zaptross/countula/blob/main/readme-assets/version-image.png)
+![Version command output](https://raw.githubusercontent.com/Zaptross/countula/main/readme-assets/version-image.png)
 
 ## Setup
 
