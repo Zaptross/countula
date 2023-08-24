@@ -1,14 +1,6 @@
-log
-node_modules
-prod
-src
 .env
 .vscode
-.husky
-.eslintrc.json
 .dockerignore
 .gitignore
 dockerfile
 example.env
-npm-debug.log
-tsconfig.json

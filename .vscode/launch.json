@@ -5,40 +5,6 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "dev countula",
-            "type": "node",
-            "request": "launch",
-            "args": [
-                "${workspaceRoot}/src/index.ts",
-                "vscode"
-            ],
-            "runtimeArgs": [
-                "--nolazy",
-                "-r",
-                "ts-node/register"
-            ],
-            "sourceMaps": true,
-            "cwd": "${workspaceRoot}",
-            "protocol": "inspector"
-        },
-        {
-            "name": "debug current",
-            "type": "node",
-            "request": "launch",
-            "args": [
-                "${file}",
-                "vscode"
-            ],
-            "runtimeArgs": [
-                "--nolazy",
-                "-r",
-                "ts-node/register"
-            ],
-            "sourceMaps": true,
-            "cwd": "${workspaceRoot}",
-            "protocol": "inspector"
-        },
-        {
             "name": "Bot",
             "type": "go",
             "request": "launch",
