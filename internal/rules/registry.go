@@ -9,4 +9,5 @@ const (
 	GuessNormallyRuleId = 1 << iota
 	NoValidateRuleId    = 1 << iota
 	FibonacciRuleId     = 1 << iota
+	RomanNumeralRuleId  = 1 << iota
 )
