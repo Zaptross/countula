@@ -10,4 +10,5 @@ const (
 	NoValidateRuleId    = 1 << iota
 	FibonacciRuleId     = 1 << iota
 	RomanNumeralRuleId  = 1 << iota
+	JeopardyRuleId      = 1 << iota
 )
