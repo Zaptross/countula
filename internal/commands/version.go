@@ -1,9 +1,11 @@
 package commands
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/bwmarrin/discordgo"
+	dhv "github.com/zaptross/godohuver"
 	"gorm.io/gorm"
 )
 
@@ -28,7 +30,21 @@ func (vc VersionCommand) Execute(db *gorm.DB, session *discordgo.Session, messag
 		return
 	}
 
-	session.ChannelMessageSend(message.ChannelID, string(dat))
+	version := string(dat)
+	versionMessage := fmt.Sprintf("Current: %s", version)
+
+	semver, err := dhv.ExtractSemver(version)
+	if err == nil {
+		latest, err := dhv.GetLatestImage("zaptross/countula")
+
+		if err == nil {
+			if semver != latest.Tag {
+				versionMessage = fmt.Sprintf("%s\nLatest: %s", versionMessage, latest.Tag)
+			}
+		}
+	}
+
+	session.ChannelMessageSend(message.ChannelID, versionMessage)
 }
 
 func (vc VersionCommand) Describe() string {
