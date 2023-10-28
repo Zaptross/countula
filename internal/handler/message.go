@@ -22,6 +22,11 @@ func GetMessageHandler(db *gorm.DB, config Config) func(*discordgo.Session, *dis
 			return
 		}
 
+		// Ignore all messages that are not in the counting channel
+		if m.ChannelID != config.CountingChannel {
+			return
+		}
+
 		if len(m.Content) == 0 {
 			println("Message has no content", m.Content)
 			return
