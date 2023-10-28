@@ -54,8 +54,9 @@ func checkHighScore(s *discordgo.Session, m *discordgo.MessageCreate, ct databas
 func failValidate(db *gorm.DB, s *discordgo.Session, m *discordgo.MessageCreate, lastTurn database.Turn, guess int, channelID string) {
 	go s.MessageReactionAdd(m.ChannelID, m.Message.ID, emoji.CROSS)
 	failMessageSend(s, m)
-	database.CreateTurnFromContext(db, s, m, lastTurn, guess, false)
+	ct := database.CreateTurnFromContext(db, s, m, lastTurn, guess, false)
 	game.CreateNewGame(db, s, channelID)
+	go statistics.Collect(db, s, m, channelID, ct)
 }
 
 func failMessageSend(s *discordgo.Session, m *discordgo.MessageCreate) {
