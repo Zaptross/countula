@@ -1,7 +1,9 @@
 {
     "prettier.tabWidth": 4,
     "cSpell.words": [
+        "countula",
         "discordgo",
+        "envconfig",
         "gorm"
     ]
 }
