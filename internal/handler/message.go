@@ -26,6 +26,15 @@ func GetMessageHandler(db *gorm.DB) func(*discordgo.Session, *discordgo.MessageC
 		// Ignore all messages that are not in a configured counting channel
 		cfg := findConfigForServer(serverConfigs, m.ChannelID)
 		if cfg == nil {
+
+			// Ensure configure command is handled only once
+			if m.Content == ConfigureCommand {
+				HandleConfigure(db, s, m)
+
+				// Invalidate the cache of server configs
+				serverConfigs = nil
+			}
+
 			return
 		}
 

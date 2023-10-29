@@ -113,5 +113,16 @@
     {
       "reply": "...I'm not a licenced therapist."
     }
+  ],
+  "on_configure": [
+    {
+      "message": "Greetings, peasants! You have entered my realm, where counting is a matter of utmost importance. Let the games begin!"
+    },
+    {
+      "message": "Ah, it's a pleasure to have you join us! Get ready for some number fun, but be warned, counting like me isn't for the faint of heart!"
+    },
+    {
+      "message": "Ah, the unwashed masses arrive! Prepare for a lesson in numbers, though I doubt you'll count as well as I do, ah, ah, ah!"
+    }
   ]
 }

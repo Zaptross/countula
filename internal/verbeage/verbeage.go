@@ -10,11 +10,12 @@ import (
 )
 
 type Verbeage struct {
-	Fail   []Response `json:"fail"`
-	Count  []Response `json:"count"`
-	Awaken []Response `json:"awaken"`
-	Rules  []Response `json:"rules"`
-	Help   []Response `json:"help"`
+	Fail        []Response `json:"fail"`
+	Count       []Response `json:"count"`
+	Awaken      []Response `json:"awaken"`
+	Rules       []Response `json:"rules"`
+	Help        []Response `json:"help"`
+	OnConfigure []Response `json:"on_configure"`
 }
 
 type Response struct {
@@ -29,11 +30,12 @@ type ResponseParts struct {
 }
 
 type ResponseTemplate struct {
-	Fail   []ResponseParts
-	Count  []ResponseParts
-	Awaken []ResponseParts
-	Rules  []ResponseParts
-	Help   []ResponseParts
+	Fail        []ResponseParts
+	Count       []ResponseParts
+	Awaken      []ResponseParts
+	Rules       []ResponseParts
+	Help        []ResponseParts
+	OnConfigure []ResponseParts
 }
 
 type TemplateFields struct {
@@ -58,11 +60,12 @@ func loadTemplates() {
 
 	v := getVerbeage()
 	verbeage = ResponseTemplate{
-		Fail:   []ResponseParts{},
-		Count:  []ResponseParts{},
-		Awaken: []ResponseParts{},
-		Rules:  []ResponseParts{},
-		Help:   []ResponseParts{},
+		Fail:        []ResponseParts{},
+		Count:       []ResponseParts{},
+		Awaken:      []ResponseParts{},
+		Rules:       []ResponseParts{},
+		Help:        []ResponseParts{},
+		OnConfigure: []ResponseParts{},
 	}
 
 	for _, f := range v.Fail {
@@ -79,6 +82,9 @@ func loadTemplates() {
 	}
 	for _, h := range v.Help {
 		verbeage.Help = append(verbeage.Help, createResponseParts(h))
+	}
+	for _, o := range v.OnConfigure {
+		verbeage.OnConfigure = append(verbeage.OnConfigure, createResponseParts(o))
 	}
 }
 
@@ -128,4 +134,9 @@ func GetRandomRuleMessage() ResponseParts {
 func GetRandomHelpMessage() ResponseParts {
 	loadTemplates()
 	return utils.RandFrom(verbeage.Help)
+}
+
+func GetRandomOnConfigureMessage() ResponseParts {
+	loadTemplates()
+	return utils.RandFrom(verbeage.OnConfigure)
 }
