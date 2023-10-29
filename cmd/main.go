@@ -8,15 +8,12 @@ import (
 	"github.com/bwmarrin/discordgo"
 	"github.com/kelseyhightower/envconfig"
 	"github.com/zaptross/countula/internal/database"
-	"github.com/zaptross/countula/internal/game"
 	"github.com/zaptross/countula/internal/handler"
 	"github.com/zaptross/countula/internal/verbeage"
 )
 
 type DiscordConfig struct {
-	Token           string
-	AdminRoleId     string
-	CountingChannel string
+	Token string
 }
 
 func main() {
@@ -33,24 +30,24 @@ func main() {
 		panic(err)
 	}
 
-	dg.AddHandler(handler.GetMessageHandler(db, handler.Config{AdminRoleId: botConfig.AdminRoleId, CountingChannel: botConfig.CountingChannel}))
+	dg.AddHandler(handler.GetMessageHandler(db))
 
 	err = dg.Open()
 	if err != nil {
 		panic(err)
 	}
 
-	t, err := verbeage.GetRandomAwaken().Message(verbeage.TemplateFields{})
+	serverConfigs := database.GetAllServerConfigs(db)
+	if len(serverConfigs) != 0 {
+		t, err := verbeage.GetRandomAwaken().Message(verbeage.TemplateFields{})
 
-	if err != nil {
-		t = ":eyes:"
-	}
+		if err != nil {
+			t = ":eyes:"
+		}
 
-	dg.ChannelMessageSend(botConfig.CountingChannel, t)
-
-	// if there's no game in progress, start a new one
-	if database.GetCurrentTurn(db).Game == 0 {
-		game.CreateNewGame(db, dg, botConfig.CountingChannel)
+		for _, sc := range serverConfigs {
+			dg.ChannelMessageSend(sc.CountingChannelID, t)
+		}
 	}
 
 	sc := make(chan os.Signal, 1)

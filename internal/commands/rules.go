@@ -18,7 +18,7 @@ const (
 )
 
 func (c RulesCommand) Execute(db *gorm.DB, s *discordgo.Session, m *discordgo.MessageCreate) {
-	turn := database.GetCurrentTurn(db)
+	turn := database.GetCurrentTurn(db, m.ChannelID)
 
 	ruleMessage := verbeage.GetRandomRuleMessage()
 

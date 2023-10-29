@@ -14,8 +14,8 @@ import (
 	"gorm.io/gorm"
 )
 
-func handleGuess(db *gorm.DB, s *discordgo.Session, m *discordgo.MessageCreate, config Config) {
-	turn := database.GetCurrentTurn(db)
+func handleGuess(db *gorm.DB, s *discordgo.Session, m *discordgo.MessageCreate, config *database.ServerConfig) {
+	turn := database.GetCurrentTurn(db, m.ChannelID)
 	rules := rules.GetRulesForTurn(turn)
 
 	var guess int
@@ -30,18 +30,18 @@ func handleGuess(db *gorm.DB, s *discordgo.Session, m *discordgo.MessageCreate, 
 	for _, vr := range rules.ValidateRules {
 		if !vr.Validate(db, turn, *m.Message, guess) {
 			println(fmt.Sprintf("%s - Failed validation at rule: %s, with guess: %d, after last guess: %d", time.Now().Format(time.RFC3339), vr.Name(), guess, turn.Guess))
-			failValidate(db, s, m, turn, guess, config.CountingChannel)
+			failValidate(db, s, m, turn, guess, config.CountingChannelID)
 			return
 		}
 	}
 
-	hst := database.GetHighScoreTurn(db)
+	hst := database.GetHighScoreTurn(db, m.ChannelID)
 	ct := database.CreateTurnFromContext(db, s, m, turn, guess, true)
 
 	go checkHighScore(s, m, ct, hst)
 	go s.MessageReactionAdd(m.ChannelID, m.Message.ID, emoji.CHECK)
 
-	go statistics.Collect(db, s, m, config.CountingChannel, ct)
+	go statistics.Collect(db, s, m, config.CountingChannelID, ct)
 }
 
 func checkHighScore(s *discordgo.Session, m *discordgo.MessageCreate, ct database.Turn, hs database.Turn) {

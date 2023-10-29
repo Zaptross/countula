@@ -2,15 +2,12 @@ package handler
 
 import (
 	"github.com/bwmarrin/discordgo"
+	"github.com/zaptross/countula/internal/database"
 	"gorm.io/gorm"
 )
 
-type Config struct {
-	AdminRoleId     string
-	CountingChannel string
-}
-
-func GetMessageHandler(db *gorm.DB, config Config) func(*discordgo.Session, *discordgo.MessageCreate) {
+func GetMessageHandler(db *gorm.DB) func(*discordgo.Session, *discordgo.MessageCreate) {
+	var serverConfigs []database.ServerConfig
 	return func(s *discordgo.Session, m *discordgo.MessageCreate) {
 		// Ignore all messages created by the bot itself
 		if m.Author.ID == s.State.User.ID {
@@ -22,8 +19,13 @@ func GetMessageHandler(db *gorm.DB, config Config) func(*discordgo.Session, *dis
 			return
 		}
 
-		// Ignore all messages that are not in the counting channel
-		if m.ChannelID != config.CountingChannel {
+		if serverConfigs == nil {
+			serverConfigs = database.GetAllServerConfigs(db)
+		}
+
+		// Ignore all messages that are not in a configured counting channel
+		cfg := findConfigForServer(serverConfigs, m.ChannelID)
+		if cfg == nil {
 			return
 		}
 
@@ -39,6 +41,15 @@ func GetMessageHandler(db *gorm.DB, config Config) func(*discordgo.Session, *dis
 		}
 
 		// Messages that are not commands are guesses, and should be handled by the guess handler
-		handleGuess(db, s, m, config)
+		handleGuess(db, s, m, cfg)
 	}
+}
+
+func findConfigForServer(serverConfigs []database.ServerConfig, channelID string) *database.ServerConfig {
+	for _, cfg := range serverConfigs {
+		if cfg.CountingChannelID == channelID {
+			return &cfg
+		}
+	}
+	return nil
 }

@@ -30,12 +30,13 @@ func (fr FibonacciRule) Type() string {
 }
 func (fr FibonacciRule) OnNewGame(db *gorm.DB, s *discordgo.Session, ng database.Turn, channelID string) {
 	fibonacciTurn := database.Turn{
-		UserID:  ng.UserID,
-		Game:    ng.Game,
-		Rules:   ng.Rules,
-		Turn:    ng.Turn + 1,
-		Guess:   1,
-		Correct: true,
+		ChannelID: channelID,
+		UserID:    ng.UserID,
+		Game:      ng.Game,
+		Rules:     ng.Rules,
+		Turn:      ng.Turn + 1,
+		Guess:     1,
+		Correct:   true,
 	}
 
 	msg, err := s.ChannelMessageSend(channelID, "0")
@@ -56,7 +57,7 @@ func (fr FibonacciRule) OnNewGame(db *gorm.DB, s *discordgo.Session, ng database
 
 func (fr FibonacciRule) Validate(db *gorm.DB, lastTurn database.Turn, msg discordgo.Message, guess int) bool {
 	var secondLastTurn database.Turn
-	db.Where("game = ? AND turn = ?", lastTurn.Game, lastTurn.Turn-1).First(&secondLastTurn)
+	db.Where("game = ? AND turn = ? AND channel_id = ?", lastTurn.Game, lastTurn.Turn-1, msg.ChannelID).First(&secondLastTurn)
 	return secondLastTurn.Guess+lastTurn.Guess == guess
 }
 

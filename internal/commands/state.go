@@ -16,8 +16,8 @@ const (
 )
 
 func (c StateCommand) Execute(db *gorm.DB, s *discordgo.Session, m *discordgo.MessageCreate) {
-	turn := database.GetCurrentTurn(db)
-	highScoreTurn := database.GetHighScoreTurn(db)
+	turn := database.GetCurrentTurn(db, m.ChannelID)
+	highScoreTurn := database.GetHighScoreTurn(db, m.ChannelID)
 
 	_, err := s.ChannelMessageSendReply(
 		m.ChannelID,
