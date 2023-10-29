@@ -13,12 +13,13 @@ import (
 
 func CreateNewGame(db *gorm.DB, s *discordgo.Session, channelID string) database.Turn {
 	newGame := database.Turn{
-		UserID:  s.State.User.ID,
-		Game:    database.GetNextGame(db),
-		Rules:   getRulesForNewGame(),
-		Turn:    0,
-		Guess:   0,
-		Correct: true,
+		UserID:    s.State.User.ID,
+		ChannelID: channelID,
+		Game:      database.GetNextGame(db, channelID),
+		Rules:     getRulesForNewGame(),
+		Turn:      0,
+		Guess:     0,
+		Correct:   true,
 	}
 
 	db.Create(&newGame)
