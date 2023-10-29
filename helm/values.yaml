@@ -13,8 +13,6 @@ image:
 countula:
   discord:
     DISCORD_TOKEN: <your bot token here>
-    DISCORD_COUNTINGCHANNEL: <your counting channel>
-    DISCORD_ROLEADMINROLEID: <your admin role id>
   database:
     DATABASE_USER: countula-user
     DATABASE_PASSWORD: countula-password

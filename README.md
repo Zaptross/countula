@@ -39,6 +39,14 @@ Before deploying your own, you will need to make a discord bot, and add it to yo
 
 Ensure that you enable the `MESSAGE CONTENT INTENT` in the bot settings, otherwise the bot will not be able to read messages.
 
+Once you have the bot running, you will need to run the configure command to set up the counting channel in your guild:
+
+-   `!configure-countula`
+    -   **NOTE**: This will configure the bot to use **the channel you ran the command in** as the counting channel
+    -   It is recommended to create a new channel for this purpose, eg: `#counting`
+
+The `!configure-countula` command can only be run once per channel to setup the channel for counting. If you run the command in another channel, it will create a second counting channel running a separate game.
+
 ## Deployment
 
 ### Docker
