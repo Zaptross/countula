@@ -1,29 +1,26 @@
 version: "3.9"
 services:
-  database:
-    image: "postgres:latest"
-    ports:
-      - "${DATABASE_PORT}:5432"
-    environment:
-      - "DATABASE_USER=${DATABASE_USER}"
-      - "DATABASE_PASSWORD=${DATABASE_PASSWORD}"
-      - "DATABASE_DB=${DATABASE_DB}"
-    restart: unless-stopped
-  countula:
-    image: zaptross/countula:latest
-    links:
-      - "database:compose-database"
-    depends_on:
-      - database
-    environment:
-      - "DISCORD_TOKEN=${DISCORD_TOKEN}"
-      - "DISCORD_COUNTINGCHANNEL=${DISCORD_COUNTINGCHANNEL}"
-      - "DISCORD_ROLEADMINROLEID=${DISCORD_ROLEADMINROLEID}"
-      - "DATABASE_USER=${DATABASE_USER}"
-      - "DATABASE_PASSWORD=${DATABASE_PASSWORD}"
-      - "DATABASE_DB=${DATABASE_DB}"
-      - "DATABASE_PORT=${DATABASE_PORT}"
-      - "DATABASE_HOST=compose-postgres"
-      - "DATABASE_SSL=${DATABASE_SSL}"
-      - "DATABASE_TIMEZONE=${DATABASE_TIMEZONE}"
-
+    database:
+        image: "postgres:latest"
+        ports:
+            - "${DATABASE_PORT}:5432"
+        environment:
+            - "DATABASE_USER=${DATABASE_USER}"
+            - "DATABASE_PASSWORD=${DATABASE_PASSWORD}"
+            - "DATABASE_DB=${DATABASE_DB}"
+        restart: unless-stopped
+    countula:
+        image: zaptross/countula:latest
+        links:
+            - "database:compose-database"
+        depends_on:
+            - database
+        environment:
+            - "DISCORD_TOKEN=${DISCORD_TOKEN}"
+            - "DATABASE_USER=${DATABASE_USER}"
+            - "DATABASE_PASSWORD=${DATABASE_PASSWORD}"
+            - "DATABASE_DB=${DATABASE_DB}"
+            - "DATABASE_PORT=${DATABASE_PORT}"
+            - "DATABASE_HOST=compose-postgres"
+            - "DATABASE_SSL=${DATABASE_SSL}"
+            - "DATABASE_TIMEZONE=${DATABASE_TIMEZONE}"
