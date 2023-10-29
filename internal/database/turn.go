@@ -12,27 +12,28 @@ type Turn struct {
 	Turn      int `gorm:"primaryKey"`
 	UserID    string
 	MessageID string
+	ChannelID string
 	Rules     int
 	Guess     int
 	Correct   bool
 	CreatedAt time.Time `gorm:"autoCreateTime"`
 }
 
-func GetCurrentTurn(db *gorm.DB) Turn {
+func GetCurrentTurn(db *gorm.DB, channelID string) Turn {
 	var currentTurn Turn
-	db.Order("game desc, turn desc").First(&currentTurn)
+	db.Order("game desc, turn desc").Where("channel_id = ?", channelID).First(&currentTurn)
 	return currentTurn
 }
 
-func GetHighScoreTurn(db *gorm.DB) Turn {
+func GetHighScoreTurn(db *gorm.DB, channelID string) Turn {
 	var highScoreTurn Turn
-	db.Order("turn desc").First(&highScoreTurn)
+	db.Order("turn desc").Where("channel_id = ?", channelID).First(&highScoreTurn)
 	return highScoreTurn
 }
 
-func GetNextGame(db *gorm.DB) int {
+func GetNextGame(db *gorm.DB, channelID string) int {
 	var lastTurn Turn
-	db.Last(&lastTurn)
+	db.Last(&lastTurn).Where("channel_id = ?", channelID)
 	return lastTurn.Game + 1
 }
 
@@ -42,6 +43,7 @@ func CreateTurnFromContext(db *gorm.DB, s *discordgo.Session, m *discordgo.Messa
 		Turn:      lastTurn.Turn + 1,
 		UserID:    m.Author.ID,
 		MessageID: m.Message.ID,
+		ChannelID: m.ChannelID,
 		Rules:     lastTurn.Rules,
 		Guess:     guess,
 		Correct:   correct,

@@ -7,6 +7,7 @@ type AuditLog struct {
 	UserID    string
 	Username  string // just for human readability
 	MessageID string
+	ChannelID string
 	Action    string
 	Data      string
 	CreatedAt time.Time `gorm:"autoCreateTime"`
