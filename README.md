@@ -43,9 +43,13 @@ Once you have the bot running, you will need to run the configure command to set
 
 -   `!configure-countula`
     -   **NOTE**: This will configure the bot to use **the channel you ran the command in** as the counting channel
+    -   To run this command, the user must have the `Manage Webhooks` permission in the channel
     -   It is recommended to create a new channel for this purpose, eg: `#counting`
 
 The `!configure-countula` command can only be run once per channel to setup the channel for counting. If you run the command in another channel, it will create a second counting channel running a separate game.
+If the user does not have the required permission, the bot will respond with an error message:
+
+![Configure command missing permissions](readme-assets/configure-missing-perms.png)
 
 ## Deployment
 
