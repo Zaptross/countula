@@ -19,14 +19,19 @@ func (c StateCommand) Execute(db *gorm.DB, s *discordgo.Session, m *discordgo.Me
 	turn := database.GetCurrentTurn(db, m.ChannelID)
 	highScoreTurn := database.GetHighScoreTurn(db, m.ChannelID)
 
-	_, err := s.ChannelMessageSendReply(
-		m.ChannelID,
-		fmt.Sprintf("The last number was %d, and the high score is: %d %s (turn %d of that game)",
+	highScoreMessage := "How do you not have a high score yet?! Get counting!"
+	if highScoreTurn.Turn > 0 {
+		highScoreMessage = fmt.Sprintf("The last number was %d, and the high score is: %d %s (turn %d of that game)",
 			turn.Guess,
 			highScoreTurn.Guess,
 			emoji.HIGH_SCORE,
 			highScoreTurn.Turn,
-		),
+		)
+	}
+
+	_, err := s.ChannelMessageSendReply(
+		m.ChannelID,
+		highScoreMessage,
 		m.Message.Reference(),
 	)
 	if err != nil {

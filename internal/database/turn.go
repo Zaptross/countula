@@ -27,7 +27,7 @@ func GetCurrentTurn(db *gorm.DB, channelID string) Turn {
 
 func GetHighScoreTurn(db *gorm.DB, channelID string) Turn {
 	var highScoreTurn Turn
-	db.Order("turn desc").Where("channel_id = ?", channelID).First(&highScoreTurn)
+	db.Order("turn desc").Where("channel_id = ? AND correct = ?", channelID, true).First(&highScoreTurn)
 	return highScoreTurn
 }
 
