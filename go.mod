@@ -5,6 +5,7 @@ go 1.20
 require (
 	github.com/bwmarrin/discordgo v0.27.1
 	github.com/kelseyhightower/envconfig v1.4.0
+	github.com/samber/lo v1.38.1
 	github.com/zaptross/godohuver v0.0.0-20230825072621-32d8eae4486b
 	gorm.io/driver/postgres v1.5.2
 	gorm.io/gorm v1.25.2
