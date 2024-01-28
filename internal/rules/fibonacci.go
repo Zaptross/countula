@@ -25,8 +25,12 @@ func (fr FibonacciRule) Description() string {
 func (fr FibonacciRule) Weight() int {
 	return fr.Current
 }
-func (fr FibonacciRule) SetWeight(weight int) {
-	fr.Current = weight
+func (fr FibonacciRule) WithWeight(weight int) Rule {
+	return FibonacciRule{
+		id:         fr.id,
+		ruleType:   fr.ruleType,
+		RuleWeight: SetupWeight(weight),
+	}
 }
 func (fr FibonacciRule) Type() string {
 	return fr.ruleType
@@ -68,7 +72,7 @@ var (
 	Fibonacci = (func() ValidateRule {
 		fr := FibonacciRule{
 			id:         FibonacciRuleId,
-			RuleWeight: Weights(FibonacciRuleWeight),
+			RuleWeight: SetupWeight(FibonacciRuleWeight),
 			ruleType:   CountType,
 		}
 

@@ -24,8 +24,12 @@ func (nvr NoValidateRule) Description() string {
 func (nvr NoValidateRule) Weight() int {
 	return nvr.Current
 }
-func (nvr NoValidateRule) SetWeight(weight int) {
-	nvr.Current = weight
+func (nvr NoValidateRule) WithWeight(weight int) Rule {
+	return NoValidateRule{
+		id:         nvr.id,
+		ruleType:   nvr.ruleType,
+		RuleWeight: SetupWeight(weight),
+	}
 }
 func (nvr NoValidateRule) Type() string {
 	return nvr.ruleType
@@ -40,7 +44,7 @@ var (
 	NoValidate = (func() ValidateRule {
 		nvr := NoValidateRule{
 			id:         NoValidateRuleId,
-			RuleWeight: Weights(NoValidateRuleWeight),
+			RuleWeight: SetupWeight(NoValidateRuleWeight),
 			ruleType:   ValidateType,
 		}
 

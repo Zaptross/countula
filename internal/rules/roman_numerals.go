@@ -27,8 +27,12 @@ func (rnr RomanNumeralRule) Description() string {
 func (rnr RomanNumeralRule) Weight() int {
 	return rnr.Current
 }
-func (rnr RomanNumeralRule) SetWeight(weight int) {
-	rnr.Current = weight
+func (rnr RomanNumeralRule) WithWeight(weight int) Rule {
+	return RomanNumeralRule{
+		id:         rnr.id,
+		ruleType:   rnr.ruleType,
+		RuleWeight: SetupWeight(weight),
+	}
 }
 func (rnr RomanNumeralRule) Type() string {
 	return rnr.ruleType
@@ -50,7 +54,7 @@ var (
 	RomanNumeral = (func() Rule {
 		rnr := RomanNumeralRule{
 			id:         RomanNumeralRuleId,
-			RuleWeight: Weights(RomanNumeralRuleWeight),
+			RuleWeight: SetupWeight(RomanNumeralRuleWeight),
 			ruleType:   PreValidateType,
 		}
 

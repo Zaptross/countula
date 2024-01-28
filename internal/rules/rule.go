@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/bwmarrin/discordgo"
+	"github.com/samber/lo"
 	"github.com/zaptross/countula/internal/database"
 	"github.com/zaptross/countula/internal/utils"
 	"gorm.io/gorm"
@@ -13,7 +14,7 @@ type Rule interface {
 	Id() int
 	Name() string
 	Weight() int
-	SetWeight(int)
+	WithWeight(int) Rule
 	Description() string
 	Type() string
 
@@ -113,14 +114,34 @@ func GetRuleTextsForGame(g database.Turn) []string {
 	return rules
 }
 
-func GetRandomPreValidateRule() PreValidateRule {
-	return utils.WeightedRandFrom(PreValidateRules).(PreValidateRule)
+func GetRandomPreValidateRule(rules []Rule) PreValidateRule {
+	return utils.WeightedRandFrom(FilterForType(PreValidateType)(rules)).(PreValidateRule)
 }
 
-func GetRandomCountRule() ValidateRule {
-	return utils.WeightedRandFrom(CountRules).(ValidateRule)
+func GetRandomCountRule(rules []Rule) ValidateRule {
+	return utils.WeightedRandFrom(FilterForType(CountType)(rules)).(ValidateRule)
 }
 
-func GetRandomValidateRule() ValidateRule {
-	return utils.WeightedRandFrom(ValidateRules).(ValidateRule)
+func GetRandomValidateRule(rules []Rule) ValidateRule {
+	return utils.WeightedRandFrom(FilterForType(ValidateType)(rules)).(ValidateRule)
+}
+
+func ApplyWeightsToRules(rules []Rule, settings []database.RuleSetting) []Rule {
+	return lo.Map(rules, func(r Rule, _ int) Rule {
+		rs, ok := lo.Find(settings, func(rs database.RuleSetting) bool { return rs.RuleID == r.Id() })
+
+		if ok {
+			return r.WithWeight(rs.Weight)
+		}
+
+		return r
+	})
+}
+
+func FilterForType(ruleType string) func(rules []Rule) []Rule {
+	return func(rules []Rule) []Rule {
+		return lo.Filter(rules, func(r Rule, _ int) bool {
+			return r.Type() == ruleType
+		})
+	}
 }

@@ -28,8 +28,12 @@ func (jr JeopardyRule) Description() string {
 func (jr JeopardyRule) Weight() int {
 	return jr.Current
 }
-func (jr JeopardyRule) SetWeight(weight int) {
-	jr.Current = weight
+func (jr JeopardyRule) WithWeight(weight int) Rule {
+	return JeopardyRule{
+		id:         jr.id,
+		ruleType:   jr.ruleType,
+		RuleWeight: SetupWeight(weight),
+	}
 }
 func (jr JeopardyRule) Type() string {
 	return jr.ruleType
@@ -63,7 +67,7 @@ var (
 	Jeopardy = (func() Rule {
 		jr := JeopardyRule{
 			id:         JeopardyRuleId,
-			RuleWeight: Weights(JeopardyRuleWeight),
+			RuleWeight: SetupWeight(JeopardyRuleWeight),
 			ruleType:   PreValidateType,
 		}
 
