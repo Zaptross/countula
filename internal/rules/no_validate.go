@@ -40,7 +40,7 @@ var (
 	NoValidate = (func() ValidateRule {
 		nvr := NoValidateRule{
 			id:         NoValidateRuleId,
-			RuleWeight: Weights(30),
+			RuleWeight: Weights(NoValidateRuleWeight),
 			ruleType:   ValidateType,
 		}
 

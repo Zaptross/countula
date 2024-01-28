@@ -63,7 +63,7 @@ var (
 	Jeopardy = (func() Rule {
 		jr := JeopardyRule{
 			id:         JeopardyRuleId,
-			RuleWeight: Weights(10),
+			RuleWeight: Weights(JeopardyRuleWeight),
 			ruleType:   PreValidateType,
 		}
 

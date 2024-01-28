@@ -50,7 +50,7 @@ var (
 	RomanNumeral = (func() Rule {
 		rnr := RomanNumeralRule{
 			id:         RomanNumeralRuleId,
-			RuleWeight: Weights(15),
+			RuleWeight: Weights(RomanNumeralRuleWeight),
 			ruleType:   PreValidateType,
 		}
 

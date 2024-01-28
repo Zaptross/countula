@@ -68,7 +68,7 @@ var (
 	Fibonacci = (func() ValidateRule {
 		fr := FibonacciRule{
 			id:         FibonacciRuleId,
-			RuleWeight: Weights(20),
+			RuleWeight: Weights(FibonacciRuleWeight),
 			ruleType:   CountType,
 		}
 

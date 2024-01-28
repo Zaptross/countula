@@ -50,7 +50,7 @@ var (
 	GuessNormally = (func() Rule {
 		gnr := GuessNormallyRule{
 			id:         GuessNormallyRuleId,
-			RuleWeight: Weights(100),
+			RuleWeight: Weights(GuessNormallyRuleWeight),
 			ruleType:   PreValidateType,
 		}
 
