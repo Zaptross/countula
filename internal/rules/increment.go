@@ -16,10 +16,10 @@ type IncrementRule struct {
 }
 
 var (
-	IncrementOne   = createIncrementRule(1, IncrementRule1Id, 30)
-	IncrementTwo   = createIncrementRule(2, IncrementRule2Id, 30)
-	IncrementThree = createIncrementRule(3, IncrementRule3Id, 20)
-	IncrementSeven = createIncrementRule(7, IncrementRule7Id, 20)
+	IncrementOne   = createIncrementRule(1, IncrementRule1Id, IncrementRule1Weight)
+	IncrementTwo   = createIncrementRule(2, IncrementRule2Id, IncrementRule2Weight)
+	IncrementThree = createIncrementRule(3, IncrementRule3Id, IncrementRule3Weight)
+	IncrementSeven = createIncrementRule(7, IncrementRule7Id, IncrementRule7Weight)
 )
 
 func createIncrementRule(increment int, id int, weight int) Rule {

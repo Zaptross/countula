@@ -40,7 +40,7 @@ var (
 	TakeTurns = (func() Rule {
 		ttr := TakeTurnsRule{
 			id:         TakeTurnsRuleId,
-			RuleWeight: Weights(100),
+			RuleWeight: Weights(TakeTurnsRuleWeight),
 			ruleType:   ValidateType,
 		}
 
