@@ -6,7 +6,7 @@ WORKDIR /build
 COPY . .
 RUN go mod download
 ENV CGO_ENABLED=0
-RUN cd /build/cmd && go build -a -o /build/countula
+RUN cd /build/cmd/bot && go build -a -o /build/countula
 
 ARG version
 RUN echo "$version" > /etc/program-version
