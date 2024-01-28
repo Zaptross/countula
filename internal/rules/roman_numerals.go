@@ -10,8 +10,8 @@ import (
 )
 
 type RomanNumeralRule struct {
+	RuleWeight
 	id       int
-	weight   int
 	ruleType string
 }
 
@@ -25,7 +25,10 @@ func (rnr RomanNumeralRule) Description() string {
 	return "You **must** guess in Roman Numerals."
 }
 func (rnr RomanNumeralRule) Weight() int {
-	return rnr.weight
+	return rnr.Current
+}
+func (rnr RomanNumeralRule) SetWeight(weight int) {
+	rnr.Current = weight
 }
 func (rnr RomanNumeralRule) Type() string {
 	return rnr.ruleType
@@ -46,9 +49,9 @@ func (rnr RomanNumeralRule) PreValidate(db *gorm.DB, dg *discordgo.Session, msg 
 var (
 	RomanNumeral = (func() Rule {
 		rnr := RomanNumeralRule{
-			id:       RomanNumeralRuleId,
-			weight:   15,
-			ruleType: PreValidateType,
+			id:         RomanNumeralRuleId,
+			RuleWeight: Weights(15),
+			ruleType:   PreValidateType,
 		}
 
 		registerRule(rnr)

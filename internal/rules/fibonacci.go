@@ -8,8 +8,8 @@ import (
 )
 
 type FibonacciRule struct {
+	RuleWeight
 	id       int
-	weight   int
 	ruleType string
 }
 
@@ -23,7 +23,10 @@ func (fr FibonacciRule) Description() string {
 	return "Count up by adding the previous two numbers together"
 }
 func (fr FibonacciRule) Weight() int {
-	return fr.weight
+	return fr.Current
+}
+func (fr FibonacciRule) SetWeight(weight int) {
+	fr.Current = weight
 }
 func (fr FibonacciRule) Type() string {
 	return fr.ruleType
@@ -64,9 +67,9 @@ func (fr FibonacciRule) Validate(db *gorm.DB, lastTurn database.Turn, msg discor
 var (
 	Fibonacci = (func() ValidateRule {
 		fr := FibonacciRule{
-			id:       FibonacciRuleId,
-			weight:   20,
-			ruleType: CountType,
+			id:         FibonacciRuleId,
+			RuleWeight: Weights(20),
+			ruleType:   CountType,
 		}
 
 		registerRule(fr)

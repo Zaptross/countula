@@ -13,6 +13,7 @@ type Rule interface {
 	Id() int
 	Name() string
 	Weight() int
+	SetWeight(int)
 	Description() string
 	Type() string
 
