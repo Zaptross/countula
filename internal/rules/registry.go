@@ -1,6 +1,7 @@
 package rules
 
 const (
+	// Order matters here
 	IncrementRule1Id    = 1 << iota
 	IncrementRule2Id    = 1 << iota
 	IncrementRule3Id    = 1 << iota

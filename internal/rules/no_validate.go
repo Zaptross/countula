@@ -7,8 +7,8 @@ import (
 )
 
 type NoValidateRule struct {
+	RuleWeight
 	id       int
-	weight   int
 	ruleType string
 }
 
@@ -22,7 +22,10 @@ func (nvr NoValidateRule) Description() string {
 	return ""
 }
 func (nvr NoValidateRule) Weight() int {
-	return nvr.weight
+	return nvr.Current
+}
+func (nvr NoValidateRule) SetWeight(weight int) {
+	nvr.Current = weight
 }
 func (nvr NoValidateRule) Type() string {
 	return nvr.ruleType
@@ -36,9 +39,9 @@ func (nvr NoValidateRule) Validate(_ *gorm.DB, lastTurn database.Turn, _ discord
 var (
 	NoValidate = (func() ValidateRule {
 		nvr := NoValidateRule{
-			id:       NoValidateRuleId,
-			weight:   30,
-			ruleType: ValidateType,
+			id:         NoValidateRuleId,
+			RuleWeight: Weights(30),
+			ruleType:   ValidateType,
 		}
 
 		registerRule(nvr)

@@ -11,8 +11,8 @@ import (
 )
 
 type JeopardyRule struct {
+	RuleWeight
 	id       int
-	weight   int
 	ruleType string
 }
 
@@ -26,7 +26,10 @@ func (jr JeopardyRule) Description() string {
 	return "You **must** guess in the form: `What is X + Y?`, where X and Y are numbers that add up to the next number."
 }
 func (jr JeopardyRule) Weight() int {
-	return jr.weight
+	return jr.Current
+}
+func (jr JeopardyRule) SetWeight(weight int) {
+	jr.Current = weight
 }
 func (jr JeopardyRule) Type() string {
 	return jr.ruleType
@@ -59,9 +62,9 @@ func (jr JeopardyRule) PreValidate(db *gorm.DB, dg *discordgo.Session, msg disco
 var (
 	Jeopardy = (func() Rule {
 		jr := JeopardyRule{
-			id:       JeopardyRuleId,
-			weight:   10,
-			ruleType: PreValidateType,
+			id:         JeopardyRuleId,
+			RuleWeight: Weights(10),
+			ruleType:   PreValidateType,
 		}
 
 		registerRule(jr)

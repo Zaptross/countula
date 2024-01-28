@@ -7,8 +7,8 @@ import (
 )
 
 type TakeTurnsRule struct {
+	RuleWeight
 	id       int
-	weight   int
 	ruleType string
 }
 
@@ -22,7 +22,10 @@ func (ttr TakeTurnsRule) Description() string {
 	return "You **must** allow another player to take a turn after yours."
 }
 func (ttr TakeTurnsRule) Weight() int {
-	return ttr.weight
+	return ttr.Current
+}
+func (ttr TakeTurnsRule) SetWeight(weight int) {
+	ttr.Current = weight
 }
 func (ttr TakeTurnsRule) Type() string {
 	return ttr.ruleType
@@ -36,9 +39,9 @@ func (ttr TakeTurnsRule) Validate(db *gorm.DB, lastTurn database.Turn, msg disco
 var (
 	TakeTurns = (func() Rule {
 		ttr := TakeTurnsRule{
-			id:       TakeTurnsRuleId,
-			weight:   100,
-			ruleType: ValidateType,
+			id:         TakeTurnsRuleId,
+			RuleWeight: Weights(100),
+			ruleType:   ValidateType,
 		}
 
 		registerRule(ttr)

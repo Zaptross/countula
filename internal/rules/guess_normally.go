@@ -10,8 +10,8 @@ import (
 )
 
 type GuessNormallyRule struct {
+	RuleWeight
 	id       int
-	weight   int
 	ruleType string
 }
 
@@ -25,7 +25,10 @@ func (gnr GuessNormallyRule) Description() string {
 	return "You **must** guess normally, i.e. your guess as a number at the start of your message."
 }
 func (gnr GuessNormallyRule) Weight() int {
-	return gnr.weight
+	return gnr.Current
+}
+func (gnr GuessNormallyRule) SetWeight(weight int) {
+	gnr.Current = weight
 }
 func (gnr GuessNormallyRule) Type() string {
 	return gnr.ruleType
@@ -46,9 +49,9 @@ func (gnr GuessNormallyRule) PreValidate(db *gorm.DB, dg *discordgo.Session, msg
 var (
 	GuessNormally = (func() Rule {
 		gnr := GuessNormallyRule{
-			id:       GuessNormallyRuleId,
-			weight:   100,
-			ruleType: PreValidateType,
+			id:         GuessNormallyRuleId,
+			RuleWeight: Weights(100),
+			ruleType:   PreValidateType,
 		}
 
 		registerRule(gnr)

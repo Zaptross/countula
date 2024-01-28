@@ -9,9 +9,9 @@ import (
 )
 
 type IncrementRule struct {
+	RuleWeight
 	increment int
 	id        int
-	weight    int
 	ruleType  string
 }
 
@@ -24,10 +24,10 @@ var (
 
 func createIncrementRule(increment int, id int, weight int) Rule {
 	r := IncrementRule{
-		increment: increment,
-		id:        id,
-		weight:    weight,
-		ruleType:  CountType,
+		increment:  increment,
+		id:         id,
+		RuleWeight: Weights(weight),
+		ruleType:   CountType,
 	}
 
 	registerRule(r)
@@ -44,7 +44,10 @@ func (ir IncrementRule) Description() string {
 	return fmt.Sprintf("Count up in increments of %d", ir.increment)
 }
 func (ir IncrementRule) Weight() int {
-	return ir.weight
+	return ir.Current
+}
+func (ir IncrementRule) SetWeight(weight int) {
+	ir.Current = weight
 }
 func (ir IncrementRule) Type() string {
 	return ir.ruleType
