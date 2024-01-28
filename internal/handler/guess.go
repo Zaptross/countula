@@ -55,7 +55,7 @@ func failValidate(db *gorm.DB, s *discordgo.Session, m *discordgo.MessageCreate,
 	go s.MessageReactionAdd(m.ChannelID, m.Message.ID, emoji.CROSS)
 	failMessageSend(s, m)
 	ct := database.CreateTurnFromContext(db, s, m, lastTurn, guess, false)
-	game.CreateNewGame(db, s, channelID)
+	game.CreateNewGame(db, s, channelID, m.GuildID)
 	go statistics.Collect(db, s, m, channelID, ct)
 }
 

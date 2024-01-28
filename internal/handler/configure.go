@@ -45,5 +45,5 @@ func HandleConfigure(db *gorm.DB, s *discordgo.Session, m *discordgo.MessageCrea
 	}
 
 	database.ConfigureFromMessage(db, m)
-	game.CreateNewGame(db, s, m.ChannelID)
+	game.CreateNewGame(db, s, m.ChannelID, m.GuildID)
 }
