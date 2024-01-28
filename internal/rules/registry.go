@@ -16,12 +16,14 @@ const (
 
 // Default Rule Weights
 const (
+	// Count Rules
+	IncrementRule1Weight = 30
+	IncrementRule2Weight = 30
+	IncrementRule3Weight = 20
+	IncrementRule7Weight = 20
+	FibonacciRuleWeight  = 20
+
 	// Validate Rules
-	IncrementRule1Weight   = 30
-	IncrementRule2Weight   = 30
-	IncrementRule3Weight   = 20
-	IncrementRule7Weight   = 20
-	FibonacciRuleWeight    = 20
 	RomanNumeralRuleWeight = 15
 	JeopardyRuleWeight     = 10
 
