@@ -1,6 +1,10 @@
 package utils
 
-import "math/rand"
+import (
+	"math/rand"
+
+	"github.com/samber/lo"
+)
 
 func RandFrom[T any](arr []T) T {
 	return arr[rand.Intn(len(arr))]
@@ -12,12 +16,13 @@ type Weighted interface {
 
 func WeightedRandFrom[T Weighted](arr []T) T {
 	var totalWeight int
-	for _, v := range arr {
+	filtered := lo.Filter(arr, weightAboveZero[T])
+	for _, v := range filtered {
 		totalWeight += v.Weight()
 	}
 
 	r := rand.Intn(totalWeight)
-	for _, v := range arr {
+	for _, v := range filtered {
 		if r < v.Weight() {
 			return v
 		}
@@ -25,4 +30,8 @@ func WeightedRandFrom[T Weighted](arr []T) T {
 	}
 
 	panic("WeightedRandFrom: unreachable")
+}
+
+func weightAboveZero[T Weighted](item T, _ int) bool {
+	return item.Weight() > 0
 }

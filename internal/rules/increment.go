@@ -26,7 +26,7 @@ func createIncrementRule(increment int, id int, weight int) Rule {
 	r := IncrementRule{
 		increment:  increment,
 		id:         id,
-		RuleWeight: Weights(weight),
+		RuleWeight: SetupWeight(weight),
 		ruleType:   CountType,
 	}
 
@@ -46,8 +46,13 @@ func (ir IncrementRule) Description() string {
 func (ir IncrementRule) Weight() int {
 	return ir.Current
 }
-func (ir IncrementRule) SetWeight(weight int) {
-	ir.Current = weight
+func (ir IncrementRule) WithWeight(weight int) Rule {
+	return IncrementRule{
+		id:         ir.id,
+		increment:  ir.increment,
+		ruleType:   ir.ruleType,
+		RuleWeight: SetupWeight(weight),
+	}
 }
 func (ir IncrementRule) Type() string {
 	return ir.ruleType

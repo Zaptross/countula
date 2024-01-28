@@ -24,8 +24,12 @@ func (ttr TakeTurnsRule) Description() string {
 func (ttr TakeTurnsRule) Weight() int {
 	return ttr.Current
 }
-func (ttr TakeTurnsRule) SetWeight(weight int) {
-	ttr.Current = weight
+func (ttr TakeTurnsRule) WithWeight(weight int) Rule {
+	return TakeTurnsRule{
+		id:         ttr.id,
+		ruleType:   ttr.ruleType,
+		RuleWeight: SetupWeight(weight),
+	}
 }
 func (ttr TakeTurnsRule) Type() string {
 	return ttr.ruleType
@@ -40,7 +44,7 @@ var (
 	TakeTurns = (func() Rule {
 		ttr := TakeTurnsRule{
 			id:         TakeTurnsRuleId,
-			RuleWeight: Weights(TakeTurnsRuleWeight),
+			RuleWeight: SetupWeight(TakeTurnsRuleWeight),
 			ruleType:   ValidateType,
 		}
 

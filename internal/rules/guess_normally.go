@@ -27,8 +27,12 @@ func (gnr GuessNormallyRule) Description() string {
 func (gnr GuessNormallyRule) Weight() int {
 	return gnr.Current
 }
-func (gnr GuessNormallyRule) SetWeight(weight int) {
-	gnr.Current = weight
+func (gnr GuessNormallyRule) WithWeight(weight int) Rule {
+	return GuessNormallyRule{
+		id:         gnr.id,
+		ruleType:   gnr.ruleType,
+		RuleWeight: SetupWeight(weight),
+	}
 }
 func (gnr GuessNormallyRule) Type() string {
 	return gnr.ruleType
@@ -50,7 +54,7 @@ var (
 	GuessNormally = (func() Rule {
 		gnr := GuessNormallyRule{
 			id:         GuessNormallyRuleId,
-			RuleWeight: Weights(GuessNormallyRuleWeight),
+			RuleWeight: SetupWeight(GuessNormallyRuleWeight),
 			ruleType:   PreValidateType,
 		}
 
