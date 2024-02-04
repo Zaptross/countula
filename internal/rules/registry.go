@@ -16,19 +16,19 @@ const (
 
 // Default Rule Weights
 const (
+	// Pre-Validate Rules
+	GuessNormallyRuleWeight = 56
+	RomanNumeralRuleWeight  = 28
+	JeopardyRuleWeight      = 16
+
 	// Count Rules
-	IncrementRule1Weight = 25
-	IncrementRule2Weight = 25
+	IncrementRule1Weight = 24
+	IncrementRule2Weight = 24
 	IncrementRule3Weight = 20
-	IncrementRule7Weight = 15
-	FibonacciRuleWeight  = 15
+	IncrementRule7Weight = 16
+	FibonacciRuleWeight  = 16
 
 	// Validate Rules
-	NoValidateRuleWeight   = 55
-	RomanNumeralRuleWeight = 27
-	JeopardyRuleWeight     = 18
-
-	// Pre-Validate Rules
-	TakeTurnsRuleWeight     = 50
-	GuessNormallyRuleWeight = 50
+	NoValidateRuleWeight = 40
+	TakeTurnsRuleWeight  = 60
 )
