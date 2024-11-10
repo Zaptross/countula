@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"os"
 	"os/signal"
 	"syscall"
@@ -14,6 +15,7 @@ import (
 
 type DiscordConfig struct {
 	Token string
+	AppID string
 }
 
 func main() {
@@ -31,6 +33,14 @@ func main() {
 	}
 
 	dg.AddHandler(handler.GetMessageHandler(db))
+
+	dg.AddHandler(handler.GetOnInteractionHandler(db))
+	_, err = dg.ApplicationCommandCreate(botConfig.AppID, "", handler.GetSlashCommand())
+
+	if err != nil {
+		log.Fatal(err)
+		panic(err)
+	}
 
 	err = dg.Open()
 	if err != nil {
