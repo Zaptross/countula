@@ -1,11 +1,12 @@
 window.addEventListener("load", function () {
     // A map of rule IDs to rule values
-    const ruleData = {};
+    const ruleData = parseRulesFromSQuery();
     const ruleInputs = Array.from(document.getElementsByTagName("input"));
+    initialiseRuleInputs(ruleInputs, ruleData);
     const updateRuleCommand = (ruleData) => {
         const ruleCommandElement = document.getElementById("rule-command");
 
-        let ruleCommand = "/count settings";
+        let ruleCommand = "/count settings action:set settings:";
         const settings = [];
 
         const entries = Object.entries(ruleData);
@@ -128,3 +129,31 @@ window.addEventListener("load", function () {
     // Update the rule command on page load
     updateRuleCommand(ruleData);
 });
+
+function parseRulesFromSQuery() {
+    // Eg; 1:24,2:24,4:20,8:16,16:60,32:56,64:40,128:16,256:28,512:16
+    const sQuery = new URLSearchParams(window.location.search).get("s");
+    if (!sQuery) {
+        return {};
+    }
+
+    return sQuery
+        .split(",")
+        .map((setting) => setting.split(":"))
+        .reduce((acc, [id, value]) => ({...acc, [id]: parseInt(value)}), {});
+}
+
+// Initialise the rule inputs with the values from the query string
+function initialiseRuleInputs(ruleInputs, ruleData) {
+    for (const input of ruleInputs) {
+        const ruleId = input.dataset.ruleId;
+        if (!ruleId) {
+            continue;
+        }
+
+        const ruleValue = ruleData[ruleId];
+        if (ruleValue !== undefined) {
+            input.value = ruleValue;
+        }
+    }
+}

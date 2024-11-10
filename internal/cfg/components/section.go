@@ -2,7 +2,7 @@ package components
 
 import g "github.com/zaptross/gorgeous"
 
-func Section(title string, children g.CE) *g.HTMLElement {
+func Section(title, explanation string, children g.CE) *g.HTMLElement {
 	sectionClass := "section"
 	g.Class(&g.CSSClass{
 		Selector: "." + sectionClass,
@@ -31,6 +31,7 @@ func Section(title string, children g.CE) *g.HTMLElement {
 		Children: append(
 			g.CE{
 				g.Summary(g.EB{Text: title}),
+				g.P(g.EB{Text: explanation}),
 			},
 			children...,
 		),
