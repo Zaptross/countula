@@ -21,12 +21,42 @@ func CommandDisplay() *g.HTMLElement {
 		},
 	})
 
+	animDuration := 0.5
+	g.Class(&g.CSSClass{
+		Selector: ".copied-anim",
+		Include:  true,
+		Props: g.CSSProps{
+			"animation": fmt.Sprintf("%fs ease-in-out 1 copied", animDuration),
+		},
+	})
+
+	g.Class(&g.CSSClass{
+		Include: true,
+		Raw: `
+		@keyframes copied {
+			0% {
+				border-color: rgb(70, 75, 70);
+				background-color: rgb(50, 55, 50);
+			}
+			100% {}
+		}
+		`,
+	})
+
 	return g.P(g.EB{
 		Id:        "rule-command",
 		ClassList: []string{commandClass},
-		Text:      "/count settings 11:11,11:11,11:11,11:11,11:11,11:11,11:11,11:11",
+		Text:      "/count settings set 11:11,11:11,11:11,11:11,11:11,11:11,11:11,11:11",
 		Script: g.JavaScript(fmt.Sprintf(
-			`thisElement.onclick = ()=>{%s};`,
+			`thisElement.onclick = ()=>{
+				if (!thisElement.classList.contains("copied-anim")) {
+					thisElement.classList.add("copied-anim");
+					setTimeout(()=>thisElement.classList.remove("copied-anim"), %f * 1000);
+				}
+
+				%s
+			};`,
+			animDuration,
 			clipboardCopy(g.JavaScript(`thisElement.innerText`)),
 		)),
 	})

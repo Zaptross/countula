@@ -1,7 +1,7 @@
 package components
 
 const (
-	BackgroundColour = "#212"
-	BackgroundAccent = "#505"
-	FontColour       = "#ddd"
+	BackgroundColour = "#121212"
+	BackgroundAccent = "#434343"
+	FontColour       = "#dddddd"
 )

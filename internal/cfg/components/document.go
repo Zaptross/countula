@@ -78,22 +78,25 @@ func Body() *g.HTMLElement {
 	sort.Slice(preValidateRules, sortById)
 	sort.Slice(validateRules, sortById)
 
-	countingDiv := Section(
-		"Counting Rules",
-		lo.Map(countingRules, func(rule rules.Rule, _ int) *g.HTMLElement {
-			return RuleDisplay(rule, len(countingRules))
-		}),
-	)
-
 	preValidateDiv := Section(
 		"Pre-Validate Rules",
+		"Pre-Validate rules are checked before the number is incremented and they change the way the user submits the number.",
 		lo.Map(preValidateRules, func(rule rules.Rule, _ int) *g.HTMLElement {
 			return RuleDisplay(rule, len(preValidateRules))
 		}),
 	)
 
+	countingDiv := Section(
+		"Counting Rules",
+		"Counting rules change the way the next number is decided.",
+		lo.Map(countingRules, func(rule rules.Rule, _ int) *g.HTMLElement {
+			return RuleDisplay(rule, len(countingRules))
+		}),
+	)
+
 	validateDiv := Section(
 		"Validate Rules",
+		"Validate rules are checked once the user's guess is confirmed to match the next number, and they change meta aspects of the game.",
 		lo.Map(validateRules, func(rule rules.Rule, _ int) *g.HTMLElement {
 			return RuleDisplay(rule, len(validateRules))
 		}),
@@ -113,8 +116,8 @@ func Body() *g.HTMLElement {
 	rulesDisplay := g.Div(g.EB{
 		ClassList: []string{rulesDisplayClass},
 		Children: g.CE{
-			countingDiv,
 			preValidateDiv,
+			countingDiv,
 			validateDiv,
 		},
 	})
