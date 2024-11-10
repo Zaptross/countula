@@ -15,5 +15,4 @@ func main() {
 
 	createDistDirectories()
 	writeRenderedHTML(rendered)
-	copyPublicToDist()
 }
