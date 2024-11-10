@@ -18,7 +18,7 @@ func writeRenderedHTML(rendered *g.RenderedHTML) {
 }
 
 func copyPublicToDist() {
-	files, err := os.ReadDir("public")
+	files, err := os.ReadDir("./public")
 	if err != nil {
 		panic(err)
 	}
