@@ -46,7 +46,7 @@ func CommandDisplay() *g.HTMLElement {
 	return g.P(g.EB{
 		Id:        "rule-command",
 		ClassList: []string{commandClass},
-		Text:      "/count settings set 11:11,11:11,11:11,11:11,11:11,11:11,11:11,11:11",
+		Text:      "/count settings action:set settings:11:11,11:11,11:11,11:11,11:11,11:11,11:11,11:11",
 		Script: g.JavaScript(fmt.Sprintf(
 			`thisElement.onclick = ()=>{
 				if (!thisElement.classList.contains("copied-anim")) {
