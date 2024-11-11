@@ -26,7 +26,7 @@ func settingsSlashCommandHandler(db *gorm.DB, s *discordgo.Session, i *discordgo
 	}
 
 	if len(i.ApplicationCommandData().Options[0].Options) == 0 {
-		replyToInteraction(s, i, fmt.Sprintf("No settings provided.\n\n To configure the rules, use `/count %s %s` or visit the configurator at: https://configurator.countula.zaptross.com", SettingsSubcommand, SettingsSubcommandGet))
+		replyToInteraction(s, i, fmt.Sprintf("No settings provided.\n\n To configure the rules, use `/count %s %s` or visit the configurator at: https://countula.zaptross.com", SettingsSubcommand, SettingsSubcommandGet))
 		return
 	}
 
@@ -35,7 +35,7 @@ func settingsSlashCommandHandler(db *gorm.DB, s *discordgo.Session, i *discordgo
 	existingSettings := database.GetRuleSettingsForGuild(db, i.GuildID)
 	if actionString == SettingsSubcommandGet {
 		if len(existingSettings) == 0 {
-			replyToInteraction(s, i, "The settings for this server are the default. To configure the rules, visit the configurator at: https://configurator.countula.zaptross.com")
+			replyToInteraction(s, i, "The settings for this server are the default. To configure the rules, visit the configurator at: https://countula.zaptross.com")
 			return
 		}
 
@@ -46,7 +46,7 @@ func settingsSlashCommandHandler(db *gorm.DB, s *discordgo.Session, i *discordgo
 			settingStrings = append(settingStrings, fmt.Sprintf("%d:%d", setting.Id(), setting.Weight()))
 		}
 
-		replyToInteraction(s, i, fmt.Sprintf("Load this server's settings into the configurator:\nhttps://configurator.countula.zaptross.com/?s=%s", strings.Join(settingStrings, ",")))
+		replyToInteraction(s, i, fmt.Sprintf("Load this server's settings into the configurator:\nhttps://countula.zaptross.com/?s=%s", strings.Join(settingStrings, ",")))
 		return
 	}
 
@@ -57,7 +57,7 @@ func settingsSlashCommandHandler(db *gorm.DB, s *discordgo.Session, i *discordgo
 	})
 
 	if len(settings) == 0 {
-		replyToInteraction(s, i, "No settings provided.\n\n To configure the rules, visit the configurator at: https://configurator.countula.zaptross.com")
+		replyToInteraction(s, i, "No settings provided.\n\n To configure the rules, visit the configurator at: https://countula.zaptross.com")
 		return
 	}
 
