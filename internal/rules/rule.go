@@ -88,6 +88,16 @@ func GetRulesForTurn(g database.Turn) RulesForTurn {
 	return rules
 }
 
+func GetRuleByID(id int) Rule {
+	for _, r := range AllRules {
+		if r.Id() == id {
+			return r
+		}
+	}
+
+	return nil
+}
+
 func GetAllRulesForTurn(g database.Turn) []Rule {
 	rules := []Rule{}
 

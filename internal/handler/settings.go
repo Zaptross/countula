@@ -32,15 +32,14 @@ func settingsSlashCommandHandler(db *gorm.DB, s *discordgo.Session, i *discordgo
 
 	actionString := i.ApplicationCommandData().Options[0].Options[0].StringValue()
 
+	existingSettings := database.GetRuleSettingsForGuild(db, i.GuildID)
 	if actionString == SettingsSubcommandGet {
-		settings := database.GetRuleSettingsForGuild(db, i.GuildID)
-
-		if len(settings) == 0 {
+		if len(existingSettings) == 0 {
 			replyToInteraction(s, i, "The settings for this server are the default. To configure the rules, visit the configurator at: https://configurator.countula.zaptross.com")
 			return
 		}
 
-		allSettings := rules.ApplyWeightsToRules(rules.AllRules, settings)
+		allSettings := rules.ApplyWeightsToRules(rules.AllRules, existingSettings)
 
 		var settingStrings []string
 		for _, setting := range allSettings {
@@ -62,6 +61,8 @@ func settingsSlashCommandHandler(db *gorm.DB, s *discordgo.Session, i *discordgo
 		return
 	}
 
+	updates := []string{}
+
 	for _, setting := range settings {
 		id, iErr := strconv.Atoi(setting[0])
 		weight, wErr := strconv.Atoi(setting[1])
@@ -72,9 +73,27 @@ func settingsSlashCommandHandler(db *gorm.DB, s *discordgo.Session, i *discordgo
 		}
 
 		database.CreateRuleSettingForGuild(db, i.GuildID, id, weight)
+
+		rule := rules.GetRuleByID(id)
+		oldWeight := rule.Weight()
+		existingSetting, ok := lo.Find(existingSettings, func(settingRow database.RuleSetting) bool {
+			return settingRow.RuleID == id
+		})
+
+		if ok {
+			oldWeight = existingSetting.Weight
+		}
+
+		if rule != nil && oldWeight != weight && rule.Weight() != weight {
+			updates = append(updates, fmt.Sprintf("**%s**: %d -> %d", rule.Name(), oldWeight, weight))
+		}
+	}
+	updateMessage := "No settings updated."
+	if len(updates) > 0 {
+		updateMessage = fmt.Sprintf("Settings updated:\n%s", strings.Join(updates, "\n"))
 	}
 
-	replyToInteraction(s, i, "Settings updated.")
+	replyToInteraction(s, i, updateMessage)
 }
 
 func settingsSlashCommand() *discordgo.ApplicationCommandOption {
