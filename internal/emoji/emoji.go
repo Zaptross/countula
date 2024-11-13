@@ -5,4 +5,6 @@ const (
 	CROSS      = "❌"
 	HIGH_SCORE = "👑"
 	SHEEP      = "🐑"
+	CLOCK      = "🕒"
+	BOOM       = "💥"
 )

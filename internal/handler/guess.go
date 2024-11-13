@@ -16,10 +16,10 @@ import (
 
 func handleGuess(db *gorm.DB, s *discordgo.Session, m *discordgo.MessageCreate, config *database.ServerConfig) {
 	turn := database.GetCurrentTurn(db, m.ChannelID)
-	rules := rules.GetRulesForTurn(turn)
+	currentTurnRules := rules.GetRulesForTurn(turn)
 
 	var guess int
-	for _, pvr := range rules.PreValidateRules {
+	for _, pvr := range currentTurnRules.PreValidateRules {
 		var err error
 		guess, err = pvr.PreValidate(db, s, *m.Message)
 		if err != nil {
@@ -27,19 +27,22 @@ func handleGuess(db *gorm.DB, s *discordgo.Session, m *discordgo.MessageCreate, 
 		}
 	}
 
-	for _, vr := range rules.ValidateRules {
+	successEmoji := emoji.CHECK
+
+	for _, vr := range currentTurnRules.ValidateRules {
 		if !vr.Validate(db, turn, *m.Message, guess) {
 			println(fmt.Sprintf("%s - Failed validation at rule: %s, with guess: %d, after last guess: %d", time.Now().Format(time.RFC3339), vr.Name(), guess, turn.Guess))
-			failValidate(db, s, m, turn, guess, config.CountingChannelID)
+			failValidate(db, s, m, turn, guess, config.CountingChannelID, rules.OverrideFailureEmoji(vr.Id()))
 			return
 		}
+		successEmoji = rules.OverrideSuccessEmoji(vr.Id())
 	}
 
 	hst := database.GetHighScoreTurn(db, m.ChannelID)
 	ct := database.CreateTurnFromContext(db, s, m, turn, guess, true)
 
 	go checkHighScore(s, m, ct, hst)
-	go s.MessageReactionAdd(m.ChannelID, m.Message.ID, emoji.CHECK)
+	go s.MessageReactionAdd(m.ChannelID, m.Message.ID, successEmoji)
 
 	go statistics.Collect(db, s, m, config.CountingChannelID, ct)
 }
@@ -51,8 +54,8 @@ func checkHighScore(s *discordgo.Session, m *discordgo.MessageCreate, ct databas
 	}
 }
 
-func failValidate(db *gorm.DB, s *discordgo.Session, m *discordgo.MessageCreate, lastTurn database.Turn, guess int, channelID string) {
-	go s.MessageReactionAdd(m.ChannelID, m.Message.ID, emoji.CROSS)
+func failValidate(db *gorm.DB, s *discordgo.Session, m *discordgo.MessageCreate, lastTurn database.Turn, guess int, channelID string, failEmoji string) {
+	go s.MessageReactionAdd(m.ChannelID, m.Message.ID, failEmoji)
 	failMessageSend(s, m)
 	ct := database.CreateTurnFromContext(db, s, m, lastTurn, guess, false)
 	game.CreateNewGame(db, s, channelID, m.GuildID)
