@@ -7,4 +7,5 @@ const (
 	SHEEP      = "🐑"
 	BALLOON    = "🎈"
 	BOOM       = "💥"
+	FIST       = "✊"
 )
