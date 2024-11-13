@@ -46,13 +46,23 @@ func (fr FibonacciRule) OnNewGame(db *gorm.DB, s *discordgo.Session, ng database
 		Correct:   true,
 	}
 
-	msg, err := s.ChannelMessageSend(channelID, "0")
+	zeroMessage := "0"
+	if fibonacciTurn.Rules&RomanNumeralRuleId == RomanNumeralRuleId {
+		zeroMessage = "nulla"
+	}
+
+	msg, err := s.ChannelMessageSend(channelID, zeroMessage)
 	if err != nil {
 		panic("Could not create new game: " + err.Error())
 	}
 	go s.MessageReactionAdd(channelID, msg.ID, emoji.CHECK)
 
-	msg, err = s.ChannelMessageSend(channelID, "1")
+	oneMessage := "1"
+	if fibonacciTurn.Rules&RomanNumeralRuleId == RomanNumeralRuleId {
+		oneMessage = "I"
+	}
+
+	msg, err = s.ChannelMessageSend(channelID, oneMessage)
 	if err != nil {
 		panic("Could not create new game: " + err.Error())
 	}
