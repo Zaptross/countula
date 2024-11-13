@@ -36,9 +36,9 @@ const (
 	CountOfTheHillRuleWeight = 10
 
 	// Validate Rules
-	NoValidateRuleWeight  = 35
+	NoValidateRuleWeight  = 30
 	TakeTurnsRuleWeight   = 55
-	KeepyUppiesRuleWeight = 10
+	KeepyUppiesRuleWeight = 15
 )
 
 func OverrideSuccessEmoji(ruleId int) string {
