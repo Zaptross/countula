@@ -5,6 +5,8 @@ import (
 
 	"github.com/bwmarrin/discordgo"
 	"github.com/zaptross/countula/internal/database"
+	"github.com/zaptross/countula/internal/emoji"
+	"github.com/zaptross/countula/internal/verbeage"
 	"gorm.io/gorm"
 )
 
@@ -39,6 +41,12 @@ func (ku KeepyUppiesRule) Type() string {
 func (ku KeepyUppiesRule) OnNewGame(db *gorm.DB, s *discordgo.Session, ng database.Turn, channelID string) {
 }
 func (ku KeepyUppiesRule) OnFailure(fc *FailureContext) *FailureContext {
+	fc.Emoji = emoji.BOOM
+	fc.LastTurn.Turn -= 1
+	fc.Msg.ID = fc.LastTurn.MessageID
+	fc.Guess = fc.LastTurn.Guess
+	fc.FailureMessage = verbeage.GetRandomKeepyUppiesMessage()
+	go fc.DG.MessageReactionRemove(fc.ChannelID, fc.Msg.ID, emoji.BALLOON, fc.DG.State.User.ID)
 	return fc
 }
 

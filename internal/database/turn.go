@@ -5,6 +5,7 @@ import (
 
 	"github.com/bwmarrin/discordgo"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 type Turn struct {
@@ -49,7 +50,10 @@ func CreateTurnFromContext(db *gorm.DB, s *discordgo.Session, m *discordgo.Messa
 		Correct:   correct,
 	}
 
-	db.Create(&newTurn)
+	db.Clauses(clause.OnConflict{
+		Columns:   []clause.Column{{Name: "game"}, {Name: "turn"}},
+		DoUpdates: clause.AssignmentColumns([]string{"correct"}),
+	}).Create(&newTurn)
 
 	return newTurn
 }

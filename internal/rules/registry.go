@@ -46,11 +46,3 @@ func OverrideSuccessEmoji(ruleId int) string {
 	}
 	return emoji.CHECK
 }
-
-func OverrideFailureEmoji(ruleId int) string {
-	switch ruleId {
-	case KeepyUppiesRuleId:
-		return emoji.BOOM
-	}
-	return emoji.CROSS
-}
