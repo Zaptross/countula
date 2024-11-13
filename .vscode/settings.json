@@ -4,7 +4,9 @@
         "countula",
         "discordgo",
         "envconfig",
-        "gorm"
+        "gorm",
+        "Keepy",
+        "Uppies"
     ],
     "liveServer.settings.root": "/cmd/configurator/dist"
 }

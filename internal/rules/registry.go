@@ -1,5 +1,7 @@
 package rules
 
+import "github.com/zaptross/countula/internal/emoji"
+
 const (
 	// Order matters here
 	IncrementRule1Id    = 1 << iota
@@ -13,6 +15,7 @@ const (
 	RomanNumeralRuleId  = 1 << iota
 	JeopardyRuleId      = 1 << iota
 	GoodyTwoShoesRuleId = 1 << iota
+	KeepyUppiesRuleId   = 1 << iota
 )
 
 // Default Rule Weights
@@ -23,14 +26,31 @@ const (
 	JeopardyRuleWeight      = 16
 
 	// Count Rules
-	IncrementRule1Weight    = 22
+	IncrementRule1Weight    = 18
 	IncrementRule2Weight    = 22
-	IncrementRule3Weight    = 18
+	IncrementRule3Weight    = 22
 	IncrementRule7Weight    = 14
 	FibonacciRuleWeight     = 14
 	GoodyTwoShoesRuleWeight = 10
 
 	// Validate Rules
-	NoValidateRuleWeight = 40
-	TakeTurnsRuleWeight  = 60
+	NoValidateRuleWeight  = 35
+	TakeTurnsRuleWeight   = 55
+	KeepyUppiesRuleWeight = 10
 )
+
+func OverrideSuccessEmoji(ruleId int) string {
+	switch ruleId {
+	case KeepyUppiesRuleId:
+		return emoji.CLOCK
+	}
+	return emoji.CHECK
+}
+
+func OverrideFailureEmoji(ruleId int) string {
+	switch ruleId {
+	case KeepyUppiesRuleId:
+		return emoji.BOOM
+	}
+	return emoji.CROSS
+}
