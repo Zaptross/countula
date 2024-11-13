@@ -13,6 +13,7 @@ image:
 countula:
   discord:
     DISCORD_TOKEN: <your bot token here>
+    DISCORD_APPID: <your bot token here>
   database:
     DATABASE_USER: countula-user
     DATABASE_PASSWORD: countula-password
