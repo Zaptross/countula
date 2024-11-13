@@ -12,6 +12,7 @@ const (
 	FibonacciRuleId     = 1 << iota
 	RomanNumeralRuleId  = 1 << iota
 	JeopardyRuleId      = 1 << iota
+	GoodyTwoShoesRuleId = 1 << iota
 )
 
 // Default Rule Weights
@@ -22,11 +23,12 @@ const (
 	JeopardyRuleWeight      = 16
 
 	// Count Rules
-	IncrementRule1Weight = 24
-	IncrementRule2Weight = 24
-	IncrementRule3Weight = 20
-	IncrementRule7Weight = 16
-	FibonacciRuleWeight  = 16
+	IncrementRule1Weight    = 22
+	IncrementRule2Weight    = 22
+	IncrementRule3Weight    = 18
+	IncrementRule7Weight    = 14
+	FibonacciRuleWeight     = 14
+	GoodyTwoShoesRuleWeight = 10
 
 	// Validate Rules
 	NoValidateRuleWeight = 40
