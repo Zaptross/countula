@@ -39,6 +39,9 @@ func (jr JeopardyRule) Type() string {
 	return jr.ruleType
 }
 func (jr JeopardyRule) OnNewGame(_ *gorm.DB, _ *discordgo.Session, _ database.Turn, _ string) {}
+func (jr JeopardyRule) OnFailure(fc *FailureContext) *FailureContext {
+	return fc
+}
 
 var (
 	jeopardyRegex = regexp.MustCompile(`[Ww]hat is (\d+) (?:\+|plus) (\d+)\??`)

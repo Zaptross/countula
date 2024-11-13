@@ -71,6 +71,9 @@ func (fr FibonacciRule) OnNewGame(db *gorm.DB, s *discordgo.Session, ng database
 	fibonacciTurn.MessageID = msg.ID
 	db.Create(&fibonacciTurn)
 }
+func (fr FibonacciRule) OnFailure(fc *FailureContext) *FailureContext {
+	return fc
+}
 
 func (fr FibonacciRule) Validate(db *gorm.DB, lastTurn database.Turn, msg discordgo.Message, guess int) bool {
 	var secondLastTurn database.Turn

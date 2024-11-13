@@ -38,6 +38,9 @@ func (gnr GuessNormallyRule) Type() string {
 	return gnr.ruleType
 }
 func (gnr GuessNormallyRule) OnNewGame(_ *gorm.DB, _ *discordgo.Session, _ database.Turn, _ string) {}
+func (gnr GuessNormallyRule) OnFailure(fc *FailureContext) *FailureContext {
+	return fc
+}
 
 func (gnr GuessNormallyRule) PreValidate(db *gorm.DB, dg *discordgo.Session, msg discordgo.Message) (int, error) {
 	digits := strings.Split(msg.Content, " ")[0]

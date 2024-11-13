@@ -20,6 +20,8 @@ type Rule interface {
 
 	// OnNewGame is called once when a new game is started
 	OnNewGame(db *gorm.DB, dg *discordgo.Session, ng database.Turn, channelID string)
+	// OnFailure is called when a guess fails validation, and allows the rule to intervene in the failure process
+	OnFailure(*FailureContext) *FailureContext
 }
 
 // The purpose of a prevalidate rule is to take the message and extract the guess from it, and return the guess as an int

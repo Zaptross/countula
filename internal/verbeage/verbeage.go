@@ -16,6 +16,7 @@ type Verbeage struct {
 	Rules       []Response `json:"rules"`
 	Help        []Response `json:"help"`
 	OnConfigure []Response `json:"on_configure"`
+	KeepyUppies []Response `json:"keepy_uppies"`
 }
 
 type Response struct {
@@ -36,6 +37,7 @@ type ResponseTemplate struct {
 	Rules       []ResponseParts
 	Help        []ResponseParts
 	OnConfigure []ResponseParts
+	KeepyUppies []ResponseParts
 }
 
 type TemplateFields struct {
@@ -66,6 +68,7 @@ func loadTemplates() {
 		Rules:       []ResponseParts{},
 		Help:        []ResponseParts{},
 		OnConfigure: []ResponseParts{},
+		KeepyUppies: []ResponseParts{},
 	}
 
 	for _, f := range v.Fail {
@@ -85,6 +88,9 @@ func loadTemplates() {
 	}
 	for _, o := range v.OnConfigure {
 		verbeage.OnConfigure = append(verbeage.OnConfigure, createResponseParts(o))
+	}
+	for _, k := range v.KeepyUppies {
+		verbeage.KeepyUppies = append(verbeage.KeepyUppies, createResponseParts(k))
 	}
 }
 
@@ -139,4 +145,9 @@ func GetRandomHelpMessage() ResponseParts {
 func GetRandomOnConfigureMessage() ResponseParts {
 	loadTemplates()
 	return utils.RandFrom(verbeage.OnConfigure)
+}
+
+func GetRandomKeepyUppiesMessage() ResponseParts {
+	loadTemplates()
+	return utils.RandFrom(verbeage.KeepyUppies)
 }

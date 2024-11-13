@@ -124,5 +124,14 @@
     {
       "message": "Ah, the unwashed masses arrive! Prepare for a lesson in numbers, though I doubt you'll count as well as I do, ah, ah, ah!"
     }
+  ],
+  "keepy_uppies": [
+    {
+      "reply": "Time's up.",
+      "message": "You had the balloon last mate. Where's the commitment?"
+    },
+    {
+      "reply": "Did nobody teach you how to play?"
+    }
   ]
 }

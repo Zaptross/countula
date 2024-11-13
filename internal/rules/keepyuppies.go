@@ -21,7 +21,7 @@ func (ku KeepyUppiesRule) Name() string {
 	return "Keepy Uppies"
 }
 func (ku KeepyUppiesRule) Description() string {
-	return "Every guess keeps the ball up in the air for one more hour. If the ball hits the ground, the game is over. My friend Bluey taught me this one.\n\n...You have 24 hours."
+	return "Every guess keeps the balloon up in the air for one more hour. If the balloon hits the ground, the game is over. My friend Bluey taught me this one.\n\n...You have 24 hours."
 }
 func (ku KeepyUppiesRule) Weight() int {
 	return ku.Current
@@ -37,6 +37,9 @@ func (ku KeepyUppiesRule) Type() string {
 	return ku.ruleType
 }
 func (ku KeepyUppiesRule) OnNewGame(db *gorm.DB, s *discordgo.Session, ng database.Turn, channelID string) {
+}
+func (ku KeepyUppiesRule) OnFailure(fc *FailureContext) *FailureContext {
+	return fc
 }
 
 func (ku KeepyUppiesRule) Validate(db *gorm.DB, lastTurn database.Turn, msg discordgo.Message, guess int) bool {

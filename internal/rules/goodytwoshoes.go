@@ -36,6 +36,9 @@ func (gtsr GoodyTwoShoesRule) Type() string {
 }
 func (gtsr GoodyTwoShoesRule) OnNewGame(db *gorm.DB, s *discordgo.Session, ng database.Turn, channelID string) {
 }
+func (gtsr GoodyTwoShoesRule) OnFailure(fc *FailureContext) *FailureContext {
+	return fc
+}
 
 func (gtsr GoodyTwoShoesRule) Validate(db *gorm.DB, lastTurn database.Turn, msg discordgo.Message, guess int) bool {
 	if lastTurn.Turn%2 == 1 {
