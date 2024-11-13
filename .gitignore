@@ -27,6 +27,6 @@ go.work
 # Vscode files
 .vscode/launch.json
 
-__debug_bin
+__debug_bin*
 
 /cmd/configurator/dist
