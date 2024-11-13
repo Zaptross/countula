@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"log/slog"
 	"os"
 	"os/signal"
 	"syscall"
@@ -23,7 +24,7 @@ func main() {
 	envconfig.Process("database", &dbConfig)
 
 	db := database.Connect(dbConfig)
-	log.Default().Println("Connected to database")
+	slog.Info("Connected to database")
 
 	var botConfig DiscordConfig
 	envconfig.Process("discord", &botConfig)
@@ -32,10 +33,10 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	log.Default().Println("Connected to Discord")
+	slog.Info("Connected to Discord")
 
 	dg.AddHandler(handler.GetMessageHandler(db))
-	log.Default().Println("Added message handler")
+	slog.Info("Added message handler")
 
 	dg.AddHandler(handler.GetOnInteractionHandler(db))
 	_, err = dg.ApplicationCommandCreate(botConfig.AppID, "", handler.GetSlashCommand())
@@ -44,7 +45,7 @@ func main() {
 		log.Fatal(err)
 		panic(err)
 	}
-	log.Default().Println("Added slash commands handler")
+	slog.Info("Added slash commands handler")
 
 	err = dg.Open()
 	if err != nil {
@@ -63,7 +64,7 @@ func main() {
 			dg.ChannelMessageSend(sc.CountingChannelID, t)
 		}
 
-		log.Default().Println("Sent awaken messages")
+		slog.Info("Sent awaken messages")
 	}
 
 	sc := make(chan os.Signal, 1)
