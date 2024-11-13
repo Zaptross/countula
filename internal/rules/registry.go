@@ -42,7 +42,7 @@ const (
 func OverrideSuccessEmoji(ruleId int) string {
 	switch ruleId {
 	case KeepyUppiesRuleId:
-		return emoji.CLOCK
+		return emoji.BALLOON
 	}
 	return emoji.CHECK
 }

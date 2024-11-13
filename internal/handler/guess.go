@@ -32,7 +32,18 @@ func handleGuess(db *gorm.DB, s *discordgo.Session, m *discordgo.MessageCreate, 
 	for _, vr := range currentTurnRules.ValidateRules {
 		if !vr.Validate(db, turn, *m.Message, guess) {
 			println(fmt.Sprintf("%s - Failed validation at rule: %s, with guess: %d, after last guess: %d", time.Now().Format(time.RFC3339), vr.Name(), guess, turn.Guess))
-			failValidate(db, s, m, turn, guess, config.CountingChannelID, rules.OverrideFailureEmoji(vr.Id()))
+			failValidate(
+				vr.OnFailure(&rules.FailureContext{
+					DB:             db,
+					DG:             s,
+					Msg:            m,
+					FailureMessage: verbeage.GetRandomFail(),
+					LastTurn:       turn,
+					Guess:          guess,
+					ChannelID:      config.CountingChannelID,
+					Emoji:          emoji.CROSS,
+				}),
+			)
 			return
 		}
 		successEmoji = rules.OverrideSuccessEmoji(vr.Id())
@@ -54,17 +65,15 @@ func checkHighScore(s *discordgo.Session, m *discordgo.MessageCreate, ct databas
 	}
 }
 
-func failValidate(db *gorm.DB, s *discordgo.Session, m *discordgo.MessageCreate, lastTurn database.Turn, guess int, channelID string, failEmoji string) {
-	go s.MessageReactionAdd(m.ChannelID, m.Message.ID, failEmoji)
-	failMessageSend(s, m)
-	ct := database.CreateTurnFromContext(db, s, m, lastTurn, guess, false)
-	game.CreateNewGame(db, s, channelID, m.GuildID)
-	go statistics.Collect(db, s, m, channelID, ct)
+func failValidate(ctx *rules.FailureContext) {
+	go ctx.DG.MessageReactionAdd(ctx.Msg.ChannelID, ctx.Msg.ID, ctx.Emoji)
+	failMessageSend(ctx.DG, ctx.Msg, ctx.FailureMessage)
+	ct := database.CreateTurnFromContext(ctx.DB, ctx.DG, ctx.Msg, ctx.LastTurn, ctx.Guess, false)
+	game.CreateNewGame(ctx.DB, ctx.DG, ctx.ChannelID, ctx.Msg.GuildID)
+	go statistics.Collect(ctx.DB, ctx.DG, ctx.Msg, ctx.ChannelID, ct)
 }
 
-func failMessageSend(s *discordgo.Session, m *discordgo.MessageCreate) {
-	failMessage := verbeage.GetRandomFail()
-
+func failMessageSend(s *discordgo.Session, m *discordgo.MessageCreate, failMessage verbeage.ResponseParts) {
 	username := m.Author.Username
 	gm, err := s.GuildMember(m.GuildID, m.Author.ID)
 

@@ -38,6 +38,9 @@ func (rnr RomanNumeralRule) Type() string {
 	return rnr.ruleType
 }
 func (rnr RomanNumeralRule) OnNewGame(_ *gorm.DB, _ *discordgo.Session, _ database.Turn, _ string) {}
+func (rnr RomanNumeralRule) OnFailure(fc *FailureContext) *FailureContext {
+	return fc
+}
 
 func (rnr RomanNumeralRule) PreValidate(db *gorm.DB, dg *discordgo.Session, msg discordgo.Message) (int, error) {
 	digits := strings.Split(msg.Content, " ")[0]
