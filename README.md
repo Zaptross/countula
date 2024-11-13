@@ -30,6 +30,17 @@ It may be slightly evil.
 
 ![Version command output](readme-assets/version-image.png)
 
+### Slash Commands
+
+-   `/count settings (get|set) [settings]` - Get or set the frequency settings for rules.
+
+The configuration command is easiest to configure via the [Countula Configurator](https://countula.zaptross.com/). This will generate the command for you to run in your discord server.
+
+Only users who can add bots to servers can use the configure command. (`Manage Webhooks` permission)
+
+![Settings get](readme-assets/count-settings-get.png)
+![Settings set](readme-assets/count-settings-set.png)
+
 ## Setup
 
 Before deploying your own, you will need to make a discord bot, and add it to your server.
