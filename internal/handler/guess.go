@@ -1,8 +1,7 @@
 package handler
 
 import (
-	"fmt"
-	"time"
+	"log/slog"
 
 	"github.com/bwmarrin/discordgo"
 	"github.com/zaptross/countula/internal/database"
@@ -31,7 +30,7 @@ func handleGuess(db *gorm.DB, s *discordgo.Session, m *discordgo.MessageCreate, 
 
 	for _, vr := range currentTurnRules.ValidateRules {
 		if !vr.Validate(db, turn, *m.Message, guess) {
-			println(fmt.Sprintf("%s - Failed validation at rule: %s, with guess: %d, after last guess: %d", time.Now().Format(time.RFC3339), vr.Name(), guess, turn.Guess))
+			slog.Info("Incorrect guess", "rule", vr.Name(), "guess", guess, "last_guess", turn.Guess)
 			failValidate(
 				vr.OnFailure(&rules.FailureContext{
 					DB:             db,
