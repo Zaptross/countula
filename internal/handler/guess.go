@@ -14,6 +14,18 @@ import (
 )
 
 func handleGuess(db *gorm.DB, s *discordgo.Session, m *discordgo.MessageCreate, config *database.ServerConfig) {
+	if IsMaintenanceModeEnabled() {
+		t, err := verbeage.GetRandomMaintenanceMessage().Reply(verbeage.TemplateFields{})
+
+		if err != nil {
+			slog.Error("Error sending maintenance message", "error", err)
+			t = "Error sending maintenance message"
+		}
+
+		go s.ChannelMessageSendReply(m.ChannelID, t, m.Message.Reference())
+		return
+	}
+
 	turn := database.GetCurrentTurn(db, m.ChannelID)
 	currentTurnRules := rules.GetRulesForTurn(turn)
 

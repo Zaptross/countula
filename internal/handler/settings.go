@@ -18,6 +18,11 @@ const (
 )
 
 func settingsSlashCommandHandler(db *gorm.DB, s *discordgo.Session, i *discordgo.InteractionCreate) {
+	if i.Member.Permissions&discordgo.PermissionManageWebhooks == 0 {
+		replyToInteraction(s, i, "You do not have permission to use this command.")
+		return
+	}
+
 	config := database.GetServerConfig(db, i.GuildID)
 
 	if config == nil {

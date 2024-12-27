@@ -34,7 +34,7 @@ func Connect(config DatabaseConfig) *gorm.DB {
 		panic(err)
 	}
 
-	db.AutoMigrate(&Turn{}, &AuditLog{}, &StatisticRow{}, &ServerConfig{}, &RuleSetting{})
+	db.AutoMigrate(&Turn{}, &AuditLog{}, &StatisticRow{}, &ServerConfig{}, &RuleSetting{}, &ServiceConfig{})
 
 	return db
 }

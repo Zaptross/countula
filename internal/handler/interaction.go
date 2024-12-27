@@ -5,7 +5,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func GetOnInteractionHandler(db *gorm.DB) func(*discordgo.Session, *discordgo.InteractionCreate) {
+func GetOnInteractionHandler(db *gorm.DB, adminChannelId string) func(*discordgo.Session, *discordgo.InteractionCreate) {
 	return func(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
 			Type: discordgo.InteractionResponseChannelMessageWithSource,
@@ -15,21 +15,12 @@ func GetOnInteractionHandler(db *gorm.DB) func(*discordgo.Session, *discordgo.In
 			},
 		})
 
-		if i.Member.Permissions&discordgo.PermissionManageWebhooks == 0 {
-			s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
-				Type: discordgo.InteractionResponseChannelMessageWithSource,
-				Data: &discordgo.InteractionResponseData{
-					Content: "You do not have permission to use this command.",
-					Flags:   discordgo.MessageFlagsEphemeral,
-				},
-			})
-			return
-		}
-
 		// switch on subcommand name
 		switch i.ApplicationCommandData().Options[0].Name {
 		case SettingsSubcommand:
 			settingsSlashCommandHandler(db, s, i)
+		case MaintenanceModeSubcommand:
+			maintenanceModeSlashCommandHandler(db, s, i, adminChannelId)
 		}
 	}
 }
@@ -40,6 +31,7 @@ func GetSlashCommand() *discordgo.ApplicationCommand {
 		Description: "Configure the counting channel",
 		Options: []*discordgo.ApplicationCommandOption{
 			settingsSlashCommand(),
+			maintenanceModeSlashCommand(),
 		},
 	}
 }
