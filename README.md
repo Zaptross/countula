@@ -41,6 +41,16 @@ Only users who can add bots to servers can use the configure command. (`Manage W
 ![Settings get](readme-assets/count-settings-get.png)
 ![Settings set](readme-assets/count-settings-set.png)
 
+-   `/count maintenance-mode (true|false)` - Enable or disable maintenance mode. When enabled, the bot will not attempt to process guesses.
+
+If an `DISCORD\_ADMINCHANNELID` environment variable is set with a channel ID, the bot will only allow enabling maintenance mode from that channel.
+
+Otherwise, only users with the `Manage Server` permission can enable maintenance mode via the slash command in the counting channel.
+
+![Maintenance mode](readme-assets/maintenance-mode.png)
+
+![Maintenance mode reply](readme-assets/maintenance-mode-reply.png)
+
 ## Setup
 
 Before deploying your own, you will need to make a discord bot, and add it to your server.
