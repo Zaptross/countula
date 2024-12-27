@@ -44,6 +44,8 @@ func main() {
 	dg.AddHandler(handler.GetOnInteractionHandler(db, botConfig.AdminChannelID))
 	_, err = dg.ApplicationCommandCreate(botConfig.AppID, "", handler.GetSlashCommand())
 
+	dg.AddHandler(handler.GetOnMessageDeletedHandler(db))
+
 	if err != nil {
 		log.Fatal(err)
 		panic(err)
