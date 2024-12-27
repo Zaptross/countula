@@ -133,5 +133,43 @@
     {
       "reply": "Did nobody teach you how to play?"
     }
+  ],
+  "maintenance": [
+    {
+      "reply": "MAINTENANCE MODE: quid numero dicis"
+    },
+    {
+      "reply": "MAINTENANCE MODE: yeah nah I'm loadin' or somethin' mate- 'struth"
+    },
+    {
+      "reply": "MAINTENANCE MODE: I can't remember right now."
+    },
+    {
+      "reply": "MAINTENANCE MODE: :no_mouth:"
+    },
+    {
+      "reply": "MAINTENANCE MODE: :see_no_evil:"
+    },
+    {
+      "reply": "MAINTENANCE MODE: :hear_no_evil:"
+    },
+    {
+      "reply": "MAINTENANCE MODE: Countn't"
+    },
+    {
+      "reply": "MAINTENANCE MODE: In the moments between the numbers are the words, I *am* the words."
+    },
+    {
+      "reply": "MAINTENANCE MODE: ... the Count is the Count is the Count is the Count ..."
+    },
+    {
+      "reply": "MAINTENANCE MODE: Please assume the counting position and await the counting escort who will escort you to your counting."
+    },
+    {
+      "reply": "MAINTENANCE MODE: It is involuntary to tell you this, and it does hurt."
+    },
+    {
+      "reply": "MAINTENANCE MODE: Seems like the boss is tinkering again."
+    }
   ]
 }

@@ -15,8 +15,9 @@ import (
 )
 
 type DiscordConfig struct {
-	Token string
-	AppID string
+	Token          string
+	AppID          string
+	AdminChannelID string
 }
 
 func main() {
@@ -35,10 +36,12 @@ func main() {
 	}
 	slog.Info("Connected to Discord")
 
+	handler.StartupCheckMaintenanceMode(db)
+
 	dg.AddHandler(handler.GetMessageHandler(db))
 	slog.Info("Added message handler")
 
-	dg.AddHandler(handler.GetOnInteractionHandler(db))
+	dg.AddHandler(handler.GetOnInteractionHandler(db, botConfig.AdminChannelID))
 	_, err = dg.ApplicationCommandCreate(botConfig.AppID, "", handler.GetSlashCommand())
 
 	if err != nil {
@@ -53,8 +56,8 @@ func main() {
 	}
 
 	serverConfigs := database.GetAllServerConfigs(db)
-	if len(serverConfigs) != 0 {
-		t, err := verbeage.GetRandomAwaken().Message(verbeage.TemplateFields{})
+	if handler.IsMaintenanceModeEnabled() {
+		t, err := verbeage.GetRandomMaintenanceMessage().Reply(verbeage.TemplateFields{})
 
 		if err != nil {
 			t = ":eyes:"
@@ -64,7 +67,21 @@ func main() {
 			dg.ChannelMessageSend(sc.CountingChannelID, t)
 		}
 
-		slog.Info("Sent awaken messages")
+		slog.Info("Maintenance mode is enabled")
+	} else {
+		if len(serverConfigs) != 0 {
+			t, err := verbeage.GetRandomAwaken().Message(verbeage.TemplateFields{})
+
+			if err != nil {
+				t = ":eyes:"
+			}
+
+			for _, sc := range serverConfigs {
+				dg.ChannelMessageSend(sc.CountingChannelID, t)
+			}
+
+			slog.Info("Sent awaken messages")
+		}
 	}
 
 	sc := make(chan os.Signal, 1)
