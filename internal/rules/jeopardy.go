@@ -4,6 +4,7 @@ import (
 	"errors"
 	"regexp"
 	"strconv"
+	"strings"
 
 	"github.com/bwmarrin/discordgo"
 	"github.com/zaptross/countula/internal/database"
@@ -44,24 +45,60 @@ func (jr JeopardyRule) OnFailure(fc *FailureContext) *FailureContext {
 }
 
 var (
-	jeopardyRegex = regexp.MustCompile(`[Ww]hat is (\d+) (?:\+|plus) (\d+)\??`)
+	jeopardyRegex = regexp.MustCompile(`[Ww]hat is ((?:-?\d+)(?: ?(?:[+]|plus|[-]|minus|[*]|times|[/]|divided by) ?(?:-?\d+))+)\??`)
 )
 
 func (jr JeopardyRule) PreValidate(db *gorm.DB, dg *discordgo.Session, msg discordgo.Message) (int, error) {
-	matches := jeopardyRegex.FindStringSubmatch(msg.Content)
-
-	if len(matches) == 0 {
-		return 0, errors.New("no matches found")
+	match := jeopardyRegex.FindStringSubmatch(msg.Content)
+	if len(match) < 2 {
+		return 0, nil
 	}
 
+	operatorCount := strings.Count(match[1], "+") + strings.Count(match[1], "-") + strings.Count(match[1], "*") + strings.Count(match[1], "/")
+
+	if operatorCount < 1 || operatorCount > 3 {
+		dg.ChannelMessageSendReply(msg.ChannelID, "I appreciate the attempt, but let's keep it brief shall we? Say... three steps at most.", msg.Reference())
+		return 0, errors.New("invalid number of arithmetic operators, must be at least 1 and at most 3")
+	}
+
+	// Replace words with operators to make it easier to parse, eg. "What is 1 plus 2?" -> "1 + 2"
+	input := replaceMany(match[1], map[string]string{
+		"plus":       "+",
+		"minus":      "-",
+		"times":      "*",
+		"divided by": "/",
+		" ":          "",
+	})
 	guess := 0
-	for _, match := range matches[1:] {
-		num, err := strconv.Atoi(match)
-		if err != nil {
-			return 0, err
+	action := '+'
+	parts := []string{"0", "+"}
+
+	current := ""
+	for _, char := range input {
+		if strings.ContainsRune("+-*/", char) {
+			num, err := strconv.Atoi(current)
+
+			if err != nil {
+				return 0, err
+			}
+
+			guess = applyAction(action, guess, num)
+
+			action = char
+			parts = append(parts, current, string(char))
+			current = ""
+		} else {
+			current += string(char)
 		}
-		guess += num
 	}
+
+	num, err := strconv.Atoi(current)
+	if err != nil {
+		return 0, err
+	}
+
+	parts = append(parts, current)
+	guess = applyAction(action, guess, num)
 
 	return guess, nil
 }
@@ -79,3 +116,26 @@ var (
 		return jr
 	})()
 )
+
+func applyAction(action rune, a, b int) int {
+	switch action {
+	case '+':
+		return a + b
+	case '-':
+		return a - b
+	case '*':
+		return a * b
+	case '/':
+		return a / b
+	}
+
+	return 0
+}
+
+func replaceMany(s string, replacements map[string]string) string {
+	for k, v := range replacements {
+		s = strings.ReplaceAll(s, k, v)
+	}
+
+	return s
+}
