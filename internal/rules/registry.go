@@ -17,14 +17,17 @@ const (
 	GoodyTwoShoesRuleId  = 1 << iota
 	KeepyUppiesRuleId    = 1 << iota
 	CountOfTheHillRuleId = 1 << iota
+	MathsRuleId          = 1 << iota
+	// Add new rules above this line only
 )
 
 // Default Rule Weights
 const (
 	// Pre-Validate Rules
-	GuessNormallyRuleWeight = 56
+	GuessNormallyRuleWeight = 54
 	RomanNumeralRuleWeight  = 28
-	JeopardyRuleWeight      = 16
+	JeopardyRuleWeight      = 14
+	MathsRuleWeight         = 4
 
 	// Count Rules
 	IncrementRule1Weight     = 16
