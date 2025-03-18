@@ -1,3 +1,5 @@
+github.com/Pramod-Devireddy/go-exprtk v1.1.0 h1:U/uvXm5UMQ25p6PCnThz51WsxDqAeoynzdnhpQEAxZo=
+github.com/Pramod-Devireddy/go-exprtk v1.1.0/go.mod h1:GbqdmGxU1ESDj3lu8mPbffejPB5UoOtm6eB7qr3YZ94=
 github.com/brandenc40/romannumeral v1.1.5 h1:X9vvg5iJATxGzs0u4p1StxlFixPdDcHT44eBv4T5kRk=
 github.com/brandenc40/romannumeral v1.1.5/go.mod h1:BGaddAnc6x74z0muZeTu0Z+OMhQXfd8U76vkSLIPvxk=
 github.com/bwmarrin/discordgo v0.27.1 h1:ib9AIc/dom1E/fSIulrBwnez0CToJE113ZGt4HoliGY=

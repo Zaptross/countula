@@ -19,6 +19,7 @@ require (
 )
 
 require (
+	github.com/Pramod-Devireddy/go-exprtk v1.1.0
 	github.com/brandenc40/romannumeral v1.1.5
 	github.com/gorilla/websocket v1.4.2 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
