@@ -19,6 +19,7 @@ const (
 	CountOfTheHillRuleId  = 1 << iota
 	MathsRuleId           = 1 << iota
 	GoodyThreeShoesRuleId = 1 << iota
+	DoublingSeasonRuleId  = 1 << iota
 	// Add new rules above this line only
 )
 
@@ -35,10 +36,11 @@ const (
 	IncrementRule2Weight      = 20
 	IncrementRule3Weight      = 20
 	IncrementRule7Weight      = 12
-	FibonacciRuleWeight       = 12
+	FibonacciRuleWeight       = 6
 	GoodyTwoShoesRuleWeight   = 7
 	GoodyThreeShoesRuleWeight = 3
 	CountOfTheHillRuleWeight  = 10
+	DoublingSeasonRuleWeight  = 6
 
 	// Validate Rules
 	NoValidateRuleWeight  = 30
