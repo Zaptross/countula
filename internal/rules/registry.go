@@ -28,8 +28,8 @@ const (
 	// Pre-Validate Rules
 	GuessNormallyRuleWeight = 54
 	RomanNumeralRuleWeight  = 28
-	JeopardyRuleWeight      = 14
-	MathsRuleWeight         = 4
+	JeopardyRuleWeight      = 10
+	MathsRuleWeight         = 8
 
 	// Count Rules
 	IncrementRule1Weight      = 16
