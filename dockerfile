@@ -1,4 +1,4 @@
-FROM golang:alpine as build
+FROM golang:alpine AS build
 
 RUN apk --no-cache add ca-certificates
 
