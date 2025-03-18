@@ -45,20 +45,19 @@ func (jr JeopardyRule) OnFailure(fc *FailureContext) *FailureContext {
 }
 
 var (
-	jeopardyRegex = regexp.MustCompile(`[Ww]hat is ((?:-?\d+)(?: ?(?:[+]|plus|[-]|minus|[*]|times|[/]|divided by) ?(?:-?\d+))+)\??`)
+	jeopardyRegex  = regexp.MustCompile(`[Ww]hat is ((?:-?\d+)(?: ?(?:[+]|plus|[-]|minus|[*]|times|[/]|divided by) ?(?:-?\d+))+)\??`)
+	whatIsDetector = regexp.MustCompile(`[Ww]hat is (?:-?\d+)\??`)
 )
 
 func (jr JeopardyRule) PreValidate(db *gorm.DB, dg *discordgo.Session, msg discordgo.Message) (int, error) {
 	match := jeopardyRegex.FindStringSubmatch(msg.Content)
 	if len(match) < 2 {
-		return 0, nil
-	}
 
-	operatorCount := strings.Count(match[1], "+") + strings.Count(match[1], "-") + strings.Count(match[1], "*") + strings.Count(match[1], "/")
+		if whatIsDetector.MatchString(msg.Content) {
+			dg.ChannelMessageSendReply(msg.ChannelID, "Just entering the number isn't good enough buddy.", msg.Reference())
+		}
 
-	if operatorCount < 1 || operatorCount > 3 {
-		dg.ChannelMessageSendReply(msg.ChannelID, "I appreciate the attempt, but let's keep it brief shall we? Say... three steps at most.", msg.Reference())
-		return 0, errors.New("invalid number of arithmetic operators, must be at least 1 and at most 3")
+		return 0, errors.New("no match found")
 	}
 
 	// Replace words with operators to make it easier to parse, eg. "What is 1 plus 2?" -> "1 + 2"
@@ -69,6 +68,14 @@ func (jr JeopardyRule) PreValidate(db *gorm.DB, dg *discordgo.Session, msg disco
 		"divided by": "/",
 		" ":          "",
 	})
+
+	operatorCount := strings.Count(input, "+") + strings.Count(input, "-") + strings.Count(input, "*") + strings.Count(input, "/")
+
+	if operatorCount < 1 || operatorCount > 3 {
+		dg.ChannelMessageSendReply(msg.ChannelID, "I appreciate the attempt, but let's keep it brief shall we? Say... three steps at most.", msg.Reference())
+		return 0, errors.New("invalid number of arithmetic operators, must be at least 1 and at most 3")
+	}
+
 	guess := 0
 	action := '+'
 	parts := []string{"0", "+"}
