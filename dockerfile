@@ -1,11 +1,12 @@
 FROM golang:alpine AS build
 
+RUN apk add build-base
 RUN apk --no-cache add ca-certificates
 
 WORKDIR /build
 COPY . .
 RUN go mod download
-ENV CGO_ENABLED=0
+ENV CGO_ENABLED=1
 RUN cd /build/cmd/bot && go build -a -o /build/countula
 
 ARG version
