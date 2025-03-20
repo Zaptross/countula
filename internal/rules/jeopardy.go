@@ -24,7 +24,7 @@ func (jr JeopardyRule) Name() string {
 	return "Jeopardy"
 }
 func (jr JeopardyRule) Description() string {
-	return "You **must** guess in the form: `What is X + Y?`, where X and Y are numbers that equate the next number."
+	return "You **must** guess in the form: `What is X + Y?`, where X and Y are numbers that equate to the next number."
 }
 func (jr JeopardyRule) Weight() int {
 	return jr.Current
