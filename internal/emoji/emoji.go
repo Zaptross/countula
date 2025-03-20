@@ -8,4 +8,5 @@ const (
 	BALLOON    = "🎈"
 	BOOM       = "💥"
 	FIST       = "✊"
+	EYES       = "👀"
 )
