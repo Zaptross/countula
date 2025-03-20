@@ -2,7 +2,6 @@ package commands
 
 import (
 	"github.com/bwmarrin/discordgo"
-	"github.com/zaptross/countula/internal/statistics"
 	"gorm.io/gorm"
 )
 
@@ -13,7 +12,7 @@ const (
 )
 
 func (c StatsCommand) Execute(db *gorm.DB, s *discordgo.Session, m *discordgo.MessageCreate) {
-	go statistics.Display(db, s, m)
+	go s.ChannelMessageSendReply(m.ChannelID, "Try the new slash command `/count stats`", m.Message.Reference())
 }
 
 func (c StatsCommand) Describe() string {
