@@ -19,9 +19,10 @@ func Collect(db *gorm.DB, s *discordgo.Session, m *discordgo.MessageCreate, chan
 		stats = make([]*database.StatisticRow, len(allStatistics))
 		for i, stat := range allStatistics {
 			stats[i] = &database.StatisticRow{
-				UserID: ct.UserID,
-				Stat:   stat.Key,
-				Value:  0,
+				UserID:    ct.UserID,
+				ChannelID: ct.ChannelID,
+				Stat:      stat.Key,
+				Value:     0,
 			}
 		}
 	}

@@ -10,7 +10,7 @@ import (
 
 func Display(db *gorm.DB, s *discordgo.Session, m *discordgo.MessageCreate) {
 	var stats []database.StatisticRow
-	db.Where("user_id = ?", m.Author.ID).Find(&stats)
+	db.Where("user_id = ? and channel_id in (?, 'global')", m.Author.ID, m.ChannelID).Find(&stats)
 
 	reply := ""
 

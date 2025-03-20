@@ -8,6 +8,7 @@ import (
 
 type StatisticRow struct {
 	UserID    string `gorm:"primaryKey"`
+	ChannelID string `gorm:"primaryKey"`
 	Stat      string `gorm:"primaryKey"`
 	Value     int
 	UpdatedAt time.Time `gorm:"autoUpdateTime"`
@@ -56,11 +57,12 @@ func makeStatistic(key string, description string) *Statistic {
 	}
 }
 
-func (s *Statistic) ToRow(userID string, value int) StatisticRow {
+func (s *Statistic) ToRow(userID, channelID string, value int) StatisticRow {
 	return StatisticRow{
-		UserID: userID,
-		Stat:   s.Key,
-		Value:  value,
+		UserID:    userID,
+		ChannelID: channelID,
+		Stat:      s.Key,
+		Value:     value,
 	}
 }
 
