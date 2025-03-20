@@ -22,13 +22,15 @@ It may be slightly evil.
 
 ![State command output](https://raw.githubusercontent.com/Zaptross/countula/main/readme-assets/state-image.png)
 
--   `!stats` - Lists the stats of the user
-
-![Stats command output](https://raw.githubusercontent.com/Zaptross/countula/main/readme-assets/stats-image.png)
-
 -   `!version` - Provides the version of the bot
 
 ![Version command output](https://raw.githubusercontent.com/Zaptross/countula/main/readme-assets/version-image.png)
+
+### Slash Commands
+
+-   `/count stats (Global|Channel)` - Allows users to view their stats for the current channel or globally, and has a button to share with the channel.
+
+![Stats slash command output](readme-assets/stats-image.png)
 
 ## Setup
 
