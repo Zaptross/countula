@@ -46,3 +46,13 @@ jobs:
           bump_each_commit: true
 
       - run: docker buildx build --platform linux/amd64,linux/arm64 --build-arg version="${{ steps.get_version.outputs.version }} \(${{ steps.get_sha.outputs.sha_short }}\)" -t zaptross/countula:${{ steps.get_version.outputs.version }} -t zaptross/countula:latest -f ./Dockerfile . --push
+
+      - name: Update repo description
+        if: ${{ github.ref == 'refs/heads/main' }}
+        uses: peter-evans/dockerhub-description@e98e4d1628a5f3be2be7c231e50981aee98723ae # v4.0.0
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          repository: zaptross/countula
+          enable-url-completion: true
+          readme-filepath: ./README-DOCKERHUB.md
