@@ -1,9 +1,6 @@
-name: Container Push
+name: Container Build
 
-on:
-  push:
-    branches:
-      - "*"
+on: push
 
 jobs:
   build:
