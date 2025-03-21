@@ -46,6 +46,7 @@ jobs:
           bump_each_commit: true
 
       - name: build container
+        if: ${{ github.ref != 'refs/heads/main' }}
         run: |
           docker buildx build \
             --platform linux/amd64,linux/arm64 \
@@ -61,9 +62,16 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: push
+      - name: Build and push
         if: ${{ github.ref == 'refs/heads/main' }}
-        run: docker push --all-tags zaptross/countula
+        run: |
+          docker buildx build \
+            --platform linux/amd64,linux/arm64 \
+            --build-arg version="${{ steps.get_version.outputs.version }} \(${{ steps.get_sha.outputs.sha_short }}\)" \
+            -t zaptross/countula:${{ steps.get_version.outputs.version }} \
+            -t zaptross/countula:latest \
+            -f ./Dockerfile . \
+            --push
 
       - name: Update repo description
         if: ${{ github.ref == 'refs/heads/main' }}
