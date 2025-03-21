@@ -43,14 +43,14 @@ jobs:
           # If this is set to true, *every* commit will be treated as a new version.
           bump_each_commit: true
 
-      - name: build container
-        run: |
-          docker buildx build \
-          --platform linux/amd64,linux/arm64 \
-          --build-arg version="${{ steps.get_version.outputs.version }} \(${{ github.sha::7 }}\)" \ 
-          -t zaptross/countula:${{ steps.get_version.outputs.version }} \
-          -t zaptross/countula:latest \
-          -f ./Dockerfile .
+      # - name: build container
+      #   run: |
+      #     docker buildx build \
+      #     --platform linux/amd64,linux/arm64 \
+      #     --build-arg version="${{ steps.get_version.outputs.version }} \(${{ github.sha::7 }}\)" \
+      #     -t zaptross/countula:${{ steps.get_version.outputs.version }} \
+      #     -t zaptross/countula:latest \
+      #     -f ./Dockerfile .
 
       # - name: push
       #   if: ${{ github.ref == 'refs/heads/main' }}
