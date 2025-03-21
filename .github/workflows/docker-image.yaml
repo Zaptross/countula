@@ -42,12 +42,12 @@ jobs:
           bump_each_commit: true
 
       - name: build container
-        run: >
-          docker buildx build
-            --platform linux/amd64,linux/arm64
-            --build-arg version="${{ steps.get_version.outputs.version }} \(${{ github.sha::7 }}\)"
-            -t zaptross/countula:${{ steps.get_version.outputs.version }}
-            -t zaptross/countula:latest
+        run: |
+          docker buildx build \
+            --platform linux/amd64,linux/arm64 \
+            --build-arg version="${{ steps.get_version.outputs.version }} \(${{ github.sha::7 }}\)" \
+            -t zaptross/countula:${{ steps.get_version.outputs.version }} \
+            -t zaptross/countula:latest \
             -f ./Dockerfile .
 
       - name: Dockerhub Login
