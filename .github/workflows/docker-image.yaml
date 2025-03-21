@@ -1,6 +1,9 @@
 name: Container Build
 
-on: push
+on:
+  # Runs on pushes targeting the default branch
+  push:
+    branches: ["*"]
 
 jobs:
   build:
