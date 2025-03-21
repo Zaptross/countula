@@ -52,9 +52,9 @@ jobs:
           -t zaptross/countula:latest \
           -f ./Dockerfile .
 
-      - name: push
-        if: ${{ github.ref == 'refs/heads/main' }}
-        run: docker push --all-tags zaptross/countula:latest
+      # - name: push
+      #   if: ${{ github.ref == 'refs/heads/main' }}
+      #   run: docker push --all-tags zaptross/countula:latest
 
       # - name: Update repo description
       #   if: ${{ github.ref == 'refs/heads/main' }}
