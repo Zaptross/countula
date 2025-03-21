@@ -63,7 +63,7 @@ jobs:
 
       - name: push
         if: ${{ github.ref == 'refs/heads/main' }}
-        run: docker push --all-tags zaptross/countula:latest
+        run: docker push --all-tags zaptross/countula
 
       - name: Update repo description
         if: ${{ github.ref == 'refs/heads/main' }}
