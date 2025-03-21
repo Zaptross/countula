@@ -82,3 +82,15 @@ jobs:
           repository: zaptross/countula
           enable-url-completion: true
           readme-filepath: ./README-DOCKERHUB.md
+
+      - name: Tag Release
+        # if: ${{ github.ref == 'refs/heads/main' }} # out for testing
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: 'refs/tags/${{ steps.get_version.outputs.version }}',
+              sha: context.sha
+            })
