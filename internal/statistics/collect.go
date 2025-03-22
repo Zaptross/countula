@@ -51,7 +51,7 @@ func Collect(db *gorm.DB, s *discordgo.Session, m *discordgo.MessageCreate, chan
 	stats = updateStatisticRowArray(stats, userStats) // apply updates to rows
 
 	err := db.Clauses(clause.OnConflict{
-		Columns:   []clause.Column{{Name: "user_id"}, {Name: "stat"}},
+		Columns:   []clause.Column{{Name: "user_id"}, {Name: "channel_id"}, {Name: "stat"}},
 		DoUpdates: clause.AssignmentColumns([]string{"value"}),
 	}).Create(&stats).Error
 
