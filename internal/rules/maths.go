@@ -2,6 +2,7 @@ package rules
 
 import (
 	"errors"
+	"math"
 	"regexp"
 
 	"github.com/Pramod-Devireddy/go-exprtk"
@@ -17,7 +18,8 @@ type MathsRule struct {
 }
 
 var (
-	mathsRegex = regexp.MustCompile(`^(?:[ ]|[0-9]+|[(,)+\-*/%^]|sin|cos|tan|acos|asin|atan|atan2|cosh|cot|csc|sec|sinh|tanh|d2r|r2d|d2g|g2d|hyp|min|max|avg|sum|abs|ceil|floor|round|roundn|exp|log|log10|logn|pow|root|sqrt|clamp)+$`)
+	mathsLike  = regexp.MustCompile(`^(?:[0-9.]+|sin|cos|tan|acos|asin|atan|atan2|cosh|cot|csc|sec|sinh|tanh|d2r|r2d|d2g|g2d|hyp|min|max|avg|sum|abs|ceil|floor|round|roundn|exp|log|log10|logn|pow|root|sqrt|clamp)`)
+	mathsRegex = regexp.MustCompile(`^(?:[ ]|[0-9.]+|[(,)+\-*/%^]|sin|cos|tan|acos|asin|atan|atan2|cosh|cot|csc|sec|sinh|tanh|d2r|r2d|d2g|g2d|hyp|min|max|avg|sum|abs|ceil|floor|round|roundn|exp|log|log10|logn|pow|root|sqrt|clamp)+$`)
 )
 
 func (mr MathsRule) Id() int {
@@ -49,16 +51,20 @@ func (mr MathsRule) OnFailure(fc *FailureContext) *FailureContext {
 
 func (mr MathsRule) PreValidate(db *gorm.DB, dg *discordgo.Session, msg discordgo.Message) (int, error) {
 	if !mathsRegex.MatchString(msg.Content) {
-		// record attempts that don't match the regex
-		go db.Create(&database.AuditLog{
-			ChannelID: msg.ChannelID,
-			MessageID: msg.ID,
-			UserID:    msg.Author.ID,
-			Username:  msg.Author.Username,
-			Action:    "MathsRulePreValidate",
-			Data:      msg.Content,
-		})
-		go dg.ChannelMessageSendReply(msg.ChannelID, "I appreciate the attempt, but that doesn't look like a valid mathematical expression to me.", msg.Reference())
+
+		if mathsLike.MatchString(msg.Content) {
+			// record attempts that don't match the regex
+			go db.Create(&database.AuditLog{
+				ChannelID: msg.ChannelID,
+				MessageID: msg.ID,
+				UserID:    msg.Author.ID,
+				Username:  msg.Author.Username,
+				Action:    "MathsRulePreValidate",
+				Data:      msg.Content,
+			})
+			go dg.ChannelMessageSendReply(msg.ChannelID, "I appreciate the attempt, but that doesn't look like a valid mathematical expression to me.", msg.Reference())
+		}
+
 		return 0, errors.New("forbidden mathematical expression")
 	}
 
@@ -72,7 +78,7 @@ func (mr MathsRule) PreValidate(db *gorm.DB, dg *discordgo.Session, msg discordg
 
 	result := expr.GetEvaluatedValue()
 
-	return int(result), nil
+	return int(math.RoundToEven(result)), nil
 }
 
 var (
