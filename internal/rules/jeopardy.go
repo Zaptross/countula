@@ -3,6 +3,7 @@ package rules
 import (
 	"errors"
 	"regexp"
+	"slices"
 	"strconv"
 	"strings"
 
@@ -45,15 +46,15 @@ func (jr JeopardyRule) OnFailure(fc *FailureContext) *FailureContext {
 }
 
 var (
-	jeopardyRegex  = regexp.MustCompile(`[Ww]hat is ((?:-?\d+)(?: ?(?:[+]|plus|[-]|minus|[*]|times|[/]|divided by) ?(?:-?\d+))+)\??`)
-	whatIsDetector = regexp.MustCompile(`[Ww]hat is (?:-?\d+)\??`)
+	jeopardyRegex                   = regexp.MustCompile(`[Ww]hat is ((?:-?\d+)(?: ?(?:[+]|plus|[-]|minus|[*]|times|[/]|divided by) ?(?:-?\d+))+)\??`)
+	jeopardyNotReallyTryingDetector = regexp.MustCompile(`[Ww]hat is (?:-?\d+){1}\??`)
 )
 
 func (jr JeopardyRule) PreValidate(db *gorm.DB, dg *discordgo.Session, msg discordgo.Message) (int, error) {
 	match := jeopardyRegex.FindStringSubmatch(msg.Content)
 	if len(match) < 2 {
 
-		if whatIsDetector.MatchString(msg.Content) {
+		if jeopardyNotReallyTryingDetector.MatchString(msg.Content) {
 			dg.ChannelMessageSendReply(msg.ChannelID, "Just entering the number isn't good enough buddy.", msg.Reference())
 		}
 
@@ -83,6 +84,11 @@ func (jr JeopardyRule) PreValidate(db *gorm.DB, dg *discordgo.Session, msg disco
 	current := ""
 	for _, char := range input {
 		if strings.ContainsRune("+-*/", char) {
+			// If the current character is a '-' and the last part is an operator, it's a negative number
+			if char == '-' && slices.Contains([]string{"+", "/", "*", "-"}, parts[len(parts)-1]) {
+				current += string(char)
+				continue
+			}
 			num, err := strconv.Atoi(current)
 
 			if err != nil {
@@ -104,7 +110,6 @@ func (jr JeopardyRule) PreValidate(db *gorm.DB, dg *discordgo.Session, msg disco
 		return 0, err
 	}
 
-	parts = append(parts, current)
 	guess = applyAction(action, guess, num)
 
 	return guess, nil
