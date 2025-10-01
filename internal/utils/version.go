@@ -13,3 +13,7 @@ func GetVersion() string {
 	}
 	return version
 }
+
+func IsDevelopment() bool {
+	return version == "development"
+}

@@ -1,6 +1,8 @@
 package handler
 
 import (
+	"time"
+
 	"github.com/bwmarrin/discordgo"
 	"github.com/zaptross/countula/internal/database"
 	"gorm.io/gorm"
@@ -8,6 +10,7 @@ import (
 
 func GetMessageHandler(db *gorm.DB) func(*discordgo.Session, *discordgo.MessageCreate) {
 	var serverConfigs []database.ServerConfig
+	var lastFetched time.Time
 	return func(s *discordgo.Session, m *discordgo.MessageCreate) {
 		// Ignore all messages created by the bot itself
 		if m.Author.ID == s.State.User.ID {
@@ -19,8 +22,9 @@ func GetMessageHandler(db *gorm.DB) func(*discordgo.Session, *discordgo.MessageC
 			return
 		}
 
-		if serverConfigs == nil {
+		if serverConfigs == nil || time.Since(lastFetched) > 5*time.Minute {
 			serverConfigs = database.GetAllServerConfigs(db)
+			lastFetched = time.Now()
 		}
 
 		// Ignore all messages that are not in a configured counting channel
@@ -44,6 +48,7 @@ func GetMessageHandler(db *gorm.DB) func(*discordgo.Session, *discordgo.MessageC
 		}
 
 		// Messages that start with ! are commands, and should be handled by the command handler
+		// TODO - migrate to slash commands, then deprecate this
 		if m.Content[0] == '!' {
 			handleCommand(db, s, m)
 			return

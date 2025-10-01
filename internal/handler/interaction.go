@@ -4,18 +4,25 @@ import (
 	"strings"
 
 	"github.com/bwmarrin/discordgo"
+	"github.com/zaptross/countula/internal/utils"
 	"gorm.io/gorm"
 )
 
 func GetSlashCommand() *discordgo.ApplicationCommand {
+	optional := []*discordgo.ApplicationCommandOption{}
+	if utils.IsDevelopment() {
+		optional = append(optional, debugSetupSlashCommand())
+	}
+
 	return &discordgo.ApplicationCommand{
 		Name:        "count",
 		Description: "Configure the counting channel",
-		Options: []*discordgo.ApplicationCommandOption{
+		Options: append([]*discordgo.ApplicationCommandOption{
 			settingsSlashCommand(),
 			maintenanceModeSlashCommand(),
 			statsSlashCommand(),
-		},
+			configureSubCommand(),
+		}, optional...),
 	}
 }
 
@@ -47,6 +54,11 @@ func handleApplicationCommandInteraction(db *gorm.DB, s *discordgo.Session, i *d
 		maintenanceModeSlashCommandHandler(db, s, i, adminChannelId)
 	case StatsSubcommand:
 		statsSlashCommandHandler(db, s, i)
+	case ConfigureSubcommand:
+		configureSlashCommandHandler(db, s, i)
+	// Debug commands
+	case debugSetupSubCommand:
+		debugSetupSlashCommandHandler(db, s, i)
 	}
 }
 
