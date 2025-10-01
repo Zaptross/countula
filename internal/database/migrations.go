@@ -11,6 +11,19 @@ type Migration interface {
 }
 
 func RunMigrationsUp(db *gorm.DB) {
+	// check if any tables exist, in case of a fresh database
+	var tableCount int64
+	db.Raw("SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'public'").Scan(&tableCount)
+
+	if tableCount == 0 {
+		// no tables exist, so we can skip migrations
+		err := db.AutoMigrate(&Turn{}, &AuditLog{}, &StatisticRow{}, &ServerConfig{}, &RuleSetting{}, &ServiceConfig{})
+		if err != nil {
+			panic(err)
+		}
+		return
+	}
+
 	migrations := []Migration{
 		// order matters
 		&migrations.AddChannelToStatistic{},
