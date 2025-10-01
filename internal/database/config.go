@@ -25,9 +25,9 @@ func GetServerConfig(db *gorm.DB, guildID string) *ServerConfig {
 	return &config
 }
 
-func ConfigureFromMessage(db *gorm.DB, m *discordgo.MessageCreate) {
+func ConfigureFromMessage(db *gorm.DB, i *discordgo.InteractionCreate) {
 	db.Create(&ServerConfig{
-		GuildID:           m.GuildID,
-		CountingChannelID: m.ChannelID,
+		GuildID:           i.GuildID,
+		CountingChannelID: i.ChannelID,
 	})
 }
