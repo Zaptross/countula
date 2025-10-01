@@ -1,6 +1,6 @@
 module github.com/zaptross/countula
 
-go 1.24.4
+go 1.25.1
 
 require (
 	github.com/bwmarrin/discordgo v0.27.1
@@ -19,7 +19,6 @@ require (
 )
 
 require (
-	github.com/Pramod-Devireddy/go-exprtk v1.1.0
 	github.com/brandenc40/romannumeral v1.1.5
 	github.com/gorilla/websocket v1.4.2 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
