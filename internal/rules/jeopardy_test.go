@@ -16,6 +16,8 @@ func TestJeopardyRegex(t *testing.T) {
 		{"What is 2 + 2", true},
 		{"What is -2 + 3?", true},
 		{"What is -1 + 8?", true},
+		{"what is 3+-4", true},
+		{"what is 3--4", true},
 	}
 
 	for _, c := range cases {
