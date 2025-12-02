@@ -67,6 +67,8 @@ func (jr JeopardyRule) PreValidate(db *gorm.DB, dg *discordgo.Session, msg disco
 		"minus":      "-",
 		"times":      "*",
 		"divided by": "/",
+		"--":         "+",
+		"+-":         "-",
 		" ":          "",
 	})
 
