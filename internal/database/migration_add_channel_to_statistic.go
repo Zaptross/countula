@@ -1,4 +1,4 @@
-package migrations
+package database
 
 import (
 	"fmt"
@@ -7,9 +7,16 @@ import (
 	"gorm.io/gorm"
 )
 
-type AddChannelToStatistic struct{}
+type addChannelToStatistic struct{}
 
-func (m *AddChannelToStatistic) Up(db *gorm.DB) error {
+// compile time check to ensure addChannelToStatistic implements Migration
+var _ Migration = (*addChannelToStatistic)(nil)
+
+func (m *addChannelToStatistic) ID() int {
+	return 20250321
+}
+
+func (m *addChannelToStatistic) Up(db *gorm.DB) error {
 	// Check if the column already exists
 	var columnExists bool
 	query := `
@@ -59,7 +66,7 @@ func (m *AddChannelToStatistic) Up(db *gorm.DB) error {
 	return nil
 }
 
-func (m *AddChannelToStatistic) Down(db *gorm.DB) error {
+func (m *addChannelToStatistic) Down(db *gorm.DB) error {
 	// Drop the column if it exists
 	var columnExists bool
 	query := `
