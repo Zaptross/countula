@@ -42,6 +42,7 @@ func RunMigrationsUp(db *gorm.DB) {
 	migrations := []Migration{
 		// order matters
 		&addChannelToStatistic{},
+		&removeMathRule{},
 	}
 
 	err = db.Transaction(func(tx *gorm.DB) error {
