@@ -56,7 +56,7 @@ func statsSlashCommandHandler(db *gorm.DB, s *discordgo.Session, i *discordgo.In
 			discordgo.ActionsRow{
 				Components: []discordgo.MessageComponent{
 					&discordgo.Button{
-						Emoji: discordgo.ComponentEmoji{
+						Emoji: &discordgo.ComponentEmoji{
 							Name: emoji.EYES,
 						},
 						Label:    "Show Channel",

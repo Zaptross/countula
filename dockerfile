@@ -4,7 +4,7 @@ RUN apk --no-cache add build-base
 RUN apk --no-cache add ca-certificates
 
 WORKDIR /build
-COPY go.mod go.sum .
+COPY go.mod go.sum ./
 RUN go mod download
 
 COPY . .
